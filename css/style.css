@@ -38,10 +38,20 @@ table a:visited {
 
 .statusTrue {
   background: url("https://api.iconify.design/openmoji:check-mark.svg?color=%23888888") no-repeat center;
-  background-size: cover;
+  background-size: auto 35px;
 }
 
 .statusFalse {
   background: url("https://api.iconify.design/openmoji:hollow-red-circle.svg?color=%23888888") no-repeat center;
-  background-size: contain;
+  background-size: auto 35px;
+}
+
+footer {
+  background-color: rgb(62, 75, 80);
+  text-align: center;
+  font-weight: bold;
+  color: white;
+  font-size: 120%;
+  margin-top: 1%;
+  padding: 1%;
 }
