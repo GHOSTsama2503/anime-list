@@ -3,6 +3,7 @@ function createList(animeDB) {
     let tbody = document.createElement("tbody")
 
     let listLen = animeDB.length
+    let statusFalse = 0
 
     for (let i = 0; i < listLen; i++) {
         element = animeDB[i]
@@ -18,6 +19,7 @@ function createList(animeDB) {
         }
         else {
             status.setAttribute("class", "statusFalse")
+            statusFalse += 1
         }
 
         row.appendChild(status)
@@ -70,6 +72,16 @@ function createList(animeDB) {
     total.setAttribute("class", "fItem")
     total.appendChild(document.createTextNode("Total: " + listLen))
     footer.appendChild(total)
+
+    completed = document.createElement("div")
+    completed.setAttribute("class", "fItem")
+    completed.appendChild(document.createTextNode("Completed: " + (listLen - statusFalse)))
+    footer.appendChild(completed)
+
+    incompleted = document.createElement("div")
+    incompleted.setAttribute("class", "fItem")
+    incompleted.appendChild(document.createTextNode("Incompleted: " + statusFalse))
+    footer.appendChild(incompleted)
 
 }
 
