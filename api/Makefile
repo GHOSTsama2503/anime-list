@@ -1,5 +1,5 @@
 install:
-	go mod tiny
+	go mod tidy
 
 run:
 	go run cmd/main.go
