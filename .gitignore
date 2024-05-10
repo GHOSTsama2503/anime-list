@@ -1,1 +1,10 @@
-utils/
+# Environment Files
+*.env
+
+# Node.js
+node_modules/*
+package-json.lock
+pnpm-lock.yaml
+
+# Build dir
+build/
