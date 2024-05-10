@@ -1,0 +1,22 @@
+@host=http://localhost:8000
+
+###
+
+POST {{host}}/remote-search HTTP/1.1
+Accept: application/json
+Content-Type: application/json
+
+{
+    "title": "Naruto"
+}
+
+
+###
+
+POST {{host}}/animes
+Accept: application/json
+Content-Type: application/json
+
+{
+    "id": 20
+}
