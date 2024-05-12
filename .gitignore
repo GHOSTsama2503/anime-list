@@ -8,3 +8,7 @@ pnpm-lock.yaml
 
 # Build dir
 build/
+
+# Log files
+*.log
+*.log.gz
