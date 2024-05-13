@@ -3,6 +3,7 @@ package anilist
 import (
 	"bytes"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
 	"net/http"
@@ -94,6 +95,10 @@ func GetAnime(id uint) (Anime, error) {
 
 	if err := json.Unmarshal(resBody, resData); err != nil {
 		return anime, err
+	}
+
+	if resData.Data.Media.Id == 0 {
+		return anime, errors.New("anime not found")
 	}
 
 	return resData.Data.Media, nil

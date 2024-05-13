@@ -33,7 +33,26 @@ query ($id: Int) {
     id
     title {
       romaji
+      native
+      english
     }
+    format
+    status
+    description
+    startDate {
+      year
+      month
+      day
+    }
+    endDate {
+      year
+      month
+      day
+    }
+    season
+    seasonYear
+    episodes
+    duration
     coverImage {
       extraLarge
       large
@@ -41,7 +60,12 @@ query ($id: Int) {
       color
     }
     bannerImage
-    description
+    genres
+    studios {
+      nodes {
+        name
+      }
+    }
   }
 }
 `

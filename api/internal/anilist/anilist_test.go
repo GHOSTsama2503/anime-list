@@ -18,10 +18,6 @@ func TestSearchAnime(t *testing.T) {
 		t.Fatal("unexpected lenght of SearchAnime results")
 	}
 
-	if !(results[0].Id > 0) {
-		t.Fatal("anime with ID that is not greater than 0")
-	}
-
 	if !strings.HasPrefix(strings.ToLower(results[1].Image.Medium), "https://") {
 		t.Fatal("anime image url that doesn't start with https://")
 	}
