@@ -21,3 +21,15 @@ func (q *Queries) CreateStudio(ctx context.Context, name string) (Studio, error)
 	err := row.Scan(&i.ID, &i.Name)
 	return i, err
 }
+
+const findStudio = `-- name: FindStudio :one
+SELECT id, name FROM studios
+WHERE name = ?
+`
+
+func (q *Queries) FindStudio(ctx context.Context, name string) (Studio, error) {
+	row := q.db.QueryRowContext(ctx, findStudio, name)
+	var i Studio
+	err := row.Scan(&i.ID, &i.Name)
+	return i, err
+}

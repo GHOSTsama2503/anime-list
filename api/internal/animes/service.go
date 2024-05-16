@@ -50,12 +50,22 @@ func CreateAnimeService(params CreateAnimeParams) (anime Anime, err error) {
 	for _, name := range params.Genres {
 		var result queries.Genre
 
-		if result, err = query.CreateGenre(context, name); err != nil {
+		if result, err = query.FindGenre(context, name); err != nil {
 			if rbErr := transaction.Rollback(); rbErr != nil {
 				err = fmt.Errorf("tx err: %v, rb err: %v", err, rbErr)
 				return
 			}
 			return
+		}
+
+		if result.ID == 0 {
+			if result, err = query.CreateGenre(context, name); err != nil {
+				if rbErr := transaction.Rollback(); rbErr != nil {
+					err = fmt.Errorf("tx err: %v, rb err: %v", err, rbErr)
+					return
+				}
+				return
+			}
 		}
 
 		animeGenreParams := queries.CreateAnimeGenreParams{
@@ -79,12 +89,22 @@ func CreateAnimeService(params CreateAnimeParams) (anime Anime, err error) {
 	for _, name := range params.Studios {
 		var result queries.Studio
 
-		if result, err = query.CreateStudio(context, name); err != nil {
+		if result, err = query.FindStudio(context, name); err != nil {
 			if rbErr := transaction.Rollback(); rbErr != nil {
 				err = fmt.Errorf("tx err: %v, rb err: %v", err, rbErr)
 				return
 			}
 			return
+		}
+
+		if result.ID == 0 {
+			if result, err = query.CreateStudio(context, name); err != nil {
+				if rbErr := transaction.Rollback(); rbErr != nil {
+					err = fmt.Errorf("tx err: %v, rb err: %v", err, rbErr)
+					return
+				}
+				return
+			}
 		}
 
 		animeStudioParams := queries.CreateAnimeStudioParams{
@@ -117,8 +137,8 @@ func CreateAnimeService(params CreateAnimeParams) (anime Anime, err error) {
 	anime.Format = animeDb.Format
 	anime.Status = animeDb.Status
 	anime.Description = animeDb.Description
-	anime.StartDate = anime.StartDate
-	anime.EndDate = anime.EndDate
+	anime.StartDate = animeDb.StartDate
+	anime.EndDate = animeDb.EndDate
 	anime.Season = animeDb.Season
 	anime.SeasonYear = int(animeDb.SeasonYear.Int64)
 	anime.Episodes = int(animeDb.Episodes)
