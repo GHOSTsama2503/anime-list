@@ -1,0 +1,43 @@
+---
+import MenuIcon from "./icons/MenuIcon.astro";
+import SearchBar from "./SearchBar.astro";
+import NewIcon from "./icons/NewIcon.astro";
+---
+
+<header>
+    <div>
+        <MenuIcon style="font-size: 1.5rem;" />
+    </div>
+
+    <div class="space-between">
+        <SearchBar />
+        <NewIcon style="font-size: 1.5rem;" />
+    </div>
+</header>
+
+<style>
+    header {
+        width: 100%;
+        height: 2.1rem;
+        background-color: var(--bg-primary);
+        border-radius: 0.3rem;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+        box-sizing: border-box;
+    }
+
+    header > * {
+        display: flex;
+        align-content: center;
+    }
+
+    .space-between {
+        display: flex;
+        flex-direction: row;
+        gap: 1rem;
+    }
+</style>

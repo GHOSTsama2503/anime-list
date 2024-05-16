@@ -14,9 +14,11 @@ INSERT INTO animes (
     episodes,
     duration,
     banner_image,
-    st_image
+    st_image,
+    group_position
 )
 VALUES (
+    ?,
     ?,
     ?,
     ?,
@@ -37,5 +39,6 @@ RETURNING *;
 
 -- name: GetAnimes :many
 SELECT * FROM animes
+ORDER BY title_romaji COLLATE NOCASE ASC
 LIMIT ?
 OFFSET ?;

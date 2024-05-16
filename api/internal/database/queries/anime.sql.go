@@ -26,7 +26,8 @@ INSERT INTO animes (
     episodes,
     duration,
     banner_image,
-    st_image
+    st_image,
+    group_position
 )
 VALUES (
     ?,
@@ -43,27 +44,29 @@ VALUES (
     ?,
     ?,
     ?,
+    ?,
     ?
 )
-RETURNING id, id_al, title_romaji, title_native, title_english, format, status, description, start_date, end_date, season, season_year, episodes, duration, banner_image, st_image
+RETURNING id, id_al, title_romaji, title_native, title_english, format, status, description, start_date, end_date, season, season_year, episodes, duration, banner_image, st_image, group_position
 `
 
 type CreateAnimeParams struct {
-	IDAl         int64
-	TitleRomaji  string
-	TitleNative  sql.NullString
-	TitleEnglish sql.NullString
-	Format       string
-	Status       string
-	Description  string
-	StartDate    string
-	EndDate      string
-	Season       string
-	SeasonYear   sql.NullInt64
-	Episodes     int64
-	Duration     int64
-	BannerImage  sql.NullString
-	StImage      string
+	IDAl          int64
+	TitleRomaji   string
+	TitleNative   sql.NullString
+	TitleEnglish  sql.NullString
+	Format        string
+	Status        string
+	Description   string
+	StartDate     string
+	EndDate       string
+	Season        string
+	SeasonYear    sql.NullInt64
+	Episodes      int64
+	Duration      int64
+	BannerImage   sql.NullString
+	StImage       string
+	GroupPosition sql.NullInt64
 }
 
 func (q *Queries) CreateAnime(ctx context.Context, arg CreateAnimeParams) (Anime, error) {
@@ -83,6 +86,7 @@ func (q *Queries) CreateAnime(ctx context.Context, arg CreateAnimeParams) (Anime
 		arg.Duration,
 		arg.BannerImage,
 		arg.StImage,
+		arg.GroupPosition,
 	)
 	var i Anime
 	err := row.Scan(
@@ -102,12 +106,14 @@ func (q *Queries) CreateAnime(ctx context.Context, arg CreateAnimeParams) (Anime
 		&i.Duration,
 		&i.BannerImage,
 		&i.StImage,
+		&i.GroupPosition,
 	)
 	return i, err
 }
 
 const getAnimes = `-- name: GetAnimes :many
-SELECT id, id_al, title_romaji, title_native, title_english, format, status, description, start_date, end_date, season, season_year, episodes, duration, banner_image, st_image FROM animes
+SELECT id, id_al, title_romaji, title_native, title_english, format, status, description, start_date, end_date, season, season_year, episodes, duration, banner_image, st_image, group_position FROM animes
+ORDER BY title_romaji COLLATE NOCASE ASC
 LIMIT ?
 OFFSET ?
 `
@@ -143,6 +149,7 @@ func (q *Queries) GetAnimes(ctx context.Context, arg GetAnimesParams) ([]Anime, 
 			&i.Duration,
 			&i.BannerImage,
 			&i.StImage,
+			&i.GroupPosition,
 		); err != nil {
 			return nil, err
 		}

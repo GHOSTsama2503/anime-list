@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg width="800px" height="800px" viewBox="0 0 800 800" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <path d="M800 0L800 0L800 800L0 800L0 0L800 0Z" id="path_1" />
+    <clipPath id="clip_1">
+      <use xlink:href="#path_1" clip-rule="evenodd" fill-rule="evenodd" />
+    </clipPath>
+  </defs>
+  <g id="Frame">
+    <path d="M800 0L800 0L800 800L0 800L0 0L800 0Z" id="Frame" fill="none" stroke="none" />
+    <path d="M102.227 378.037L102.227 269.273C102.227 238.193 113.215 211.664 135.193 189.686C157.17 167.709 183.699 156.72 214.78 156.72L585.218 156.72C616.299 156.72 642.828 167.709 664.806 189.686C686.783 211.664 697.772 238.193 697.772 269.273L697.772 486.802C697.772 517.882 686.783 544.411 664.806 566.389C642.828 588.366 616.299 599.355 585.218 599.355L214.78 599.355C183.699 599.355 157.17 588.366 135.193 566.389C113.215 544.411 102.227 517.882 102.227 486.802L102.227 378.037Z" id="Line" fill="none" fill-rule="evenodd" stroke="#FFFFFF" stroke-width="17" stroke-linecap="round" stroke-linejoin="round" clip-path="url(#clip_1)" />
+    <path d="M291.392 75L340.13 156.72" id="Line" fill="none" fill-rule="evenodd" stroke="#FFFFFF" stroke-width="17" stroke-linecap="round" stroke-linejoin="round" clip-path="url(#clip_1)" />
+    <path d="M220.99 361.415L334.715 315.987" id="Line" fill="none" fill-rule="evenodd" stroke="#FFFFFF" stroke-width="17" stroke-linecap="round" stroke-linejoin="round" clip-path="url(#clip_1)" />
+    <path d="M508.608 75L459.87 156.72" id="Line" fill="none" fill-rule="evenodd" stroke="#FFFFFF" stroke-width="17" stroke-linecap="round" stroke-linejoin="round" clip-path="url(#clip_1)" />
+    <path d="M579.01 361.415L465.285 315.987" id="Line" fill="none" fill-rule="evenodd" stroke="#FFFFFF" stroke-width="17" stroke-linecap="round" stroke-linejoin="round" clip-path="url(#clip_1)" />
+    <path d="M484.24 415.268C474.528 439.803 465.06 457.602 442.118 457.602C424.218 457.602 414.352 449.308 400 426.997C385.648 449.308 375.782 457.602 357.882 457.602C334.94 457.602 325.472 439.798 315.76 415.268" id="Shape" fill="none" stroke="#FFFFFF" stroke-width="17" stroke-linecap="round" stroke-linejoin="round" clip-path="url(#clip_1)" />
+    <path d="M432.793 599.355L432.793 633.238C432.793 633.238 577.655 638.053 577.655 725L222.345 725C222.345 638.053 367.207 633.238 367.207 633.238L367.207 599.355" id="Shape" fill="none" stroke="#FFFFFF" stroke-width="17" stroke-linecap="round" stroke-linejoin="round" clip-path="url(#clip_1)" />
+  </g>
+</svg>

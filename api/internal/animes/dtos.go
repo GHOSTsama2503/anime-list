@@ -18,7 +18,9 @@ type RemoteSearchResult struct {
 
 type CreateAnimeRequest struct {
 	Body struct {
-		Id uint `json:"id"`
+		Id            uint   `json:"id"`
+		Group         string `json:"group,omitempty"`
+		GroupPosition int    `json:"group_position,omitempty" required:"false"`
 	}
 }
 
@@ -28,9 +30,16 @@ type CreateAnimeResponse struct {
 	} `json:"body"`
 }
 
-type GetAnimesRequest struct{}
+type GetAnimesRequest struct {
+	Offset int `query:"offset"`
+	Limit  int `query:"limit"`
+}
 
-type GetAnimesResponse struct{}
+type GetAnimesResponse struct {
+	Body struct {
+		Animes []Anime `json:"animes"`
+	}
+}
 
 type GetAnimeInfoRequest struct{}
 

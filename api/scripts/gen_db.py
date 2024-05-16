@@ -27,7 +27,7 @@ if __name__ == "__main__":
 
     parser.add_argument("--schema", "-s", help="path to schema.sql")
     parser.add_argument("--output", "-o", help="where do you want to store the .db")
-    parser.add_argument("--delete", "-d", nargs="?", help="delete and create the database again")
+    parser.add_argument("--delete", "-d", action="store_true", help="delete and create the database again")
 
     args = parser.parse_args()
 

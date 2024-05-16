@@ -46,21 +46,23 @@ func CreateAnimeController(context context.Context, input *CreateAnimeRequest) (
 	}
 
 	params := CreateAnimeParams{
-		IdAl:        int(result.Id),
-		Title:       result.Title,
-		Format:      result.Format,
-		Status:      result.Status,
-		Description: result.Description,
-		StartDate:   FuzzyDate(result.StartDate),
-		EndDate:     FuzzyDate(result.EndDate),
-		Season:      Season(result.Season),
-		SeasonYear:  result.SeasonYear,
-		Episodes:    result.Episodes,
-		Duration:    result.Duration,
-		CoverImage:  CoverImage(result.CoverImage),
-		BannerImage: result.BannerImage,
-		Genres:      result.Genres,
-		Studios:     studios,
+		IdAl:          int(result.Id),
+		Title:         result.Title,
+		Format:        result.Format,
+		Status:        result.Status,
+		Description:   result.Description,
+		StartDate:     FuzzyDate(result.StartDate),
+		EndDate:       FuzzyDate(result.EndDate),
+		Season:        Season(result.Season),
+		SeasonYear:    result.SeasonYear,
+		Episodes:      result.Episodes,
+		Duration:      result.Duration,
+		CoverImage:    CoverImage(result.CoverImage),
+		BannerImage:   result.BannerImage,
+		Genres:        result.Genres,
+		Studios:       studios,
+		Group:         input.Body.Group,
+		GroupPosition: input.Body.GroupPosition,
 	}
 
 	_, err = CreateAnimeService(params)
@@ -76,6 +78,23 @@ func CreateAnimeController(context context.Context, input *CreateAnimeRequest) (
 
 func GetAnimesController(context context.Context, input *GetAnimesRequest) (*GetAnimesResponse, error) {
 	response := &GetAnimesResponse{}
+
+	limit := int64(input.Limit)
+	if limit <= 0 {
+		limit = 10
+	}
+
+	offset := int64(input.Offset)
+	if offset < 0 {
+		offset = 0
+	}
+
+	animes, err := GetAnimesService(limit, offset)
+	if err != nil {
+		return response, err
+	}
+
+	response.Body.Animes = animes
 
 	return response, nil
 }

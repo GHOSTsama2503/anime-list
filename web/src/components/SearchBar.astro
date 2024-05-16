@@ -1,0 +1,35 @@
+---
+import SearchIcon from "./icons/SearchIcon.astro";
+---
+
+<div class="search-bar">
+    <input id="search" type="text" placeholder="Buscar..." />
+    <SearchIcon class="search-icon" style="font-size: 1.5rem;" />
+</div>
+
+<style>
+    .search-bar {
+        display: flex;
+
+        --border-color: rgb(130, 130, 130);
+    }
+
+    .search-bar input {
+        background-color: var(--bg-primary);
+        border: 0.1rem solid var(--border-color);
+        border-radius: 0.3rem;
+        border-right: 0;
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+        color: var(--text-primary);
+        max-width: 10rem;
+    }
+
+    .search-icon {
+        border: 0.1rem solid var(--border-color);
+        border-radius: 0.3rem;
+        border-left: 0;
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+    }
+</style>
