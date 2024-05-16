@@ -11,13 +11,13 @@ import (
 
 const createAnimeStudio = `-- name: CreateAnimeStudio :one
 INSERT INTO anime_studios (anime_id, studio_id)
-VALUES ($1, $2)
+VALUES (?, ?)
 RETURNING anime_id, studio_id
 `
 
 type CreateAnimeStudioParams struct {
-	AnimeID  int32
-	StudioID int32
+	AnimeID  int64
+	StudioID int64
 }
 
 func (q *Queries) CreateAnimeStudio(ctx context.Context, arg CreateAnimeStudioParams) (AnimeStudio, error) {

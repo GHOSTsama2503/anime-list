@@ -11,7 +11,7 @@ import (
 
 const createGenre = `-- name: CreateGenre :one
 INSERT INTO genres (name)
-VALUES ($1)
+VALUES (?)
 RETURNING id, name
 `
 
@@ -24,20 +24,20 @@ func (q *Queries) CreateGenre(ctx context.Context, name string) (Genre, error) {
 
 const deleteGenre = `-- name: DeleteGenre :exec
 DELETE FROM genres
-WHERE id = $1
+WHERE id = ?
 `
 
-func (q *Queries) DeleteGenre(ctx context.Context, id int32) error {
+func (q *Queries) DeleteGenre(ctx context.Context, id int64) error {
 	_, err := q.db.ExecContext(ctx, deleteGenre, id)
 	return err
 }
 
 const getGenre = `-- name: GetGenre :one
 SELECT id, name FROM genres
-WHERE id = $1
+WHERE id = ?
 `
 
-func (q *Queries) GetGenre(ctx context.Context, id int32) (Genre, error) {
+func (q *Queries) GetGenre(ctx context.Context, id int64) (Genre, error) {
 	row := q.db.QueryRowContext(ctx, getGenre, id)
 	var i Genre
 	err := row.Scan(&i.ID, &i.Name)
@@ -46,18 +46,18 @@ func (q *Queries) GetGenre(ctx context.Context, id int32) (Genre, error) {
 
 const updateGenre = `-- name: UpdateGenre :one
 UPDATE genres
-SET name = $2
-WHERE id = $1
+SET name = ?
+WHERE id = ?
 RETURNING id, name
 `
 
 type UpdateGenreParams struct {
-	ID   int32
 	Name string
+	ID   int64
 }
 
 func (q *Queries) UpdateGenre(ctx context.Context, arg UpdateGenreParams) (Genre, error) {
-	row := q.db.QueryRowContext(ctx, updateGenre, arg.ID, arg.Name)
+	row := q.db.QueryRowContext(ctx, updateGenre, arg.Name, arg.ID)
 	var i Genre
 	err := row.Scan(&i.ID, &i.Name)
 	return i, err

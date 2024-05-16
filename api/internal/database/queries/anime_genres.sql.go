@@ -11,13 +11,13 @@ import (
 
 const createAnimeGenre = `-- name: CreateAnimeGenre :one
 INSERT INTO anime_genres (anime_id, genre_id)
-VALUES ($1, $2)
+VALUES (?, ?)
 RETURNING anime_id, genre_id
 `
 
 type CreateAnimeGenreParams struct {
-	AnimeID int32
-	GenreID int32
+	AnimeID int64
+	GenreID int64
 }
 
 func (q *Queries) CreateAnimeGenre(ctx context.Context, arg CreateAnimeGenreParams) (AnimeGenre, error) {

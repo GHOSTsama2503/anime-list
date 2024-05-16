@@ -8,7 +8,6 @@ package queries
 import (
 	"context"
 	"database/sql"
-	"time"
 )
 
 const createAnime = `-- name: CreateAnime :one
@@ -30,39 +29,39 @@ INSERT INTO animes (
     st_image
 )
 VALUES (
-    $1,
-    $2,
-    $3,
-    $4,
-    $5,
-    $6,
-    $7,
-    $8,
-    $9,
-    $10,
-    $11,
-    $12,
-    $13,
-    $14,
-    $15
+    ?,
+    ?,
+    ?,
+    ?,
+    ?,
+    ?,
+    ?,
+    ?,
+    ?,
+    ?,
+    ?,
+    ?,
+    ?,
+    ?,
+    ?
 )
 RETURNING id, id_al, title_romaji, title_native, title_english, format, status, description, start_date, end_date, season, season_year, episodes, duration, banner_image, st_image
 `
 
 type CreateAnimeParams struct {
-	IDAl         int32
+	IDAl         int64
 	TitleRomaji  string
 	TitleNative  sql.NullString
 	TitleEnglish sql.NullString
 	Format       string
 	Status       string
 	Description  string
-	StartDate    time.Time
-	EndDate      time.Time
+	StartDate    string
+	EndDate      string
 	Season       string
-	SeasonYear   sql.NullInt16
-	Episodes     int16
-	Duration     int16
+	SeasonYear   sql.NullInt64
+	Episodes     int64
+	Duration     int64
 	BannerImage  sql.NullString
 	StImage      string
 }
@@ -109,8 +108,8 @@ func (q *Queries) CreateAnime(ctx context.Context, arg CreateAnimeParams) (Anime
 
 const getAnimes = `-- name: GetAnimes :many
 SELECT id, id_al, title_romaji, title_native, title_english, format, status, description, start_date, end_date, season, season_year, episodes, duration, banner_image, st_image FROM animes
-LIMIT $1
-OFFSET $2
+LIMIT ?
+OFFSET ?
 `
 
 type GetAnimesParams struct {

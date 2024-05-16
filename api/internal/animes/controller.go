@@ -53,7 +53,7 @@ func CreateAnimeController(context context.Context, input *CreateAnimeRequest) (
 		Description: result.Description,
 		StartDate:   FuzzyDate(result.StartDate),
 		EndDate:     FuzzyDate(result.EndDate),
-		Season:      result.Season,
+		Season:      Season(result.Season),
 		SeasonYear:  result.SeasonYear,
 		Episodes:    result.Episodes,
 		Duration:    result.Duration,

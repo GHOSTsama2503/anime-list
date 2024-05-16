@@ -5,7 +5,7 @@ import (
 	"anime-list/internal/env"
 	"database/sql"
 
-	_ "github.com/jackc/pgx/v5/stdlib"
+	_ "github.com/tursodatabase/go-libsql"
 )
 
 var Db *sql.DB
@@ -13,7 +13,7 @@ var Query *queries.Queries
 
 func Init() (*sql.DB, error) {
 
-	db, err := sql.Open("pgx", env.DatabaseUrl)
+	db, err := sql.Open("libsql", env.DatabaseUrl)
 	if err != nil {
 		return db, err
 	}

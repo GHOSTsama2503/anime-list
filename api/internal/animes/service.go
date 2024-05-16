@@ -11,19 +11,19 @@ import (
 func CreateAnimeService(params CreateAnimeParams) (anime Anime, err error) {
 
 	animeParams := queries.CreateAnimeParams{
-		IDAl:         int32(params.IdAl),
+		IDAl:         int64(params.IdAl),
 		TitleRomaji:  params.Title.Romaji,
 		TitleNative:  NullString(params.Title.Native),
 		TitleEnglish: NullString(params.Title.English),
 		Format:       params.Format,
 		Status:       params.Status,
 		Description:  params.Description,
-		StartDate:    FuzzyDateToTime(params.StartDate),
-		EndDate:      FuzzyDateToTime(params.EndDate),
-		Season:       params.Season,
-		SeasonYear:   NullInt16(int16(params.SeasonYear)),
-		Episodes:     int16(params.Episodes),
-		Duration:     int16(params.Duration),
+		StartDate:    FuzzyDateToString(params.StartDate),
+		EndDate:      FuzzyDateToString(params.EndDate),
+		Season:       string(params.Season),
+		SeasonYear:   NullInt64(int64(params.SeasonYear)),
+		Episodes:     int64(params.Episodes),
+		Duration:     int64(params.Duration),
 		BannerImage:  NullString(params.BannerImage),
 		StImage:      StImage(params.IdAl),
 	}
@@ -117,9 +117,10 @@ func CreateAnimeService(params CreateAnimeParams) (anime Anime, err error) {
 	anime.Format = animeDb.Format
 	anime.Status = animeDb.Status
 	anime.Description = animeDb.Description
-	anime.StartDate = animeDb.StartDate
+	anime.StartDate = anime.StartDate
+	anime.EndDate = anime.EndDate
 	anime.Season = animeDb.Season
-	anime.SeasonYear = int(animeDb.SeasonYear.Int16)
+	anime.SeasonYear = int(animeDb.SeasonYear.Int64)
 	anime.Episodes = int(animeDb.Episodes)
 	anime.Duration = int(animeDb.Duration)
 	anime.Genres = genres
@@ -157,7 +158,7 @@ func GetAnimesService(limit int64, offset int64) (animes []Anime, err error) {
 			StartDate:   anime.StartDate,
 			EndDate:     anime.EndDate,
 			Season:      anime.Season,
-			SeasonYear:  int(anime.SeasonYear.Int16),
+			SeasonYear:  int(anime.SeasonYear.Int64),
 			Episodes:    int(anime.Episodes),
 			Duration:    int(anime.Duration),
 			BannerImage: anime.BannerImage.String,
