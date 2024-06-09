@@ -1,0 +1,43 @@
+<div class="paginator">
+    <button onclick="prev()">Prev</button>
+    <button onclick="next()">Next</button>
+</div>
+
+<style>
+    .paginator {
+        height: 2rem;
+        display: flex;
+        justify-content: center;
+        gap: 3rem;
+        padding-top: 0.8rem;
+    }
+</style>
+
+<script defer>
+    function getLO() {
+        const queryParams = new URLSearchParams(window.location.search);
+
+        let limit = parseInt(queryParams.get("limit"));
+        let offset = parseInt(queryParams.get("offset"));
+
+        return { limit, offset };
+    }
+
+    function goTo(limit, offset) {
+        window.location.href =
+            window.location.origin + `?limit=${limit}&offset=${offset}`;
+    }
+
+    function prev() {
+        const lo = getLO();
+        if (lo.offset >= 10) {
+            goTo(lo.limit, lo.offset - 10);
+        }
+    }
+
+    function next() {
+        const lo = getLO();
+
+        goTo(lo.limit, lo.offset + 10);
+    }
+</script>

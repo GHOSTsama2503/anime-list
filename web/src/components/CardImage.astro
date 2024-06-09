@@ -1,0 +1,47 @@
+<figure class="card-image-container">
+    <img loading="lazy" onload="loaded(this)" />
+</figure>
+
+<script defer>
+    function loaded(event) {
+        event?.parentNode?.classList.add("loaded");
+    }
+</script>
+
+<style>
+    .card-image-container {
+        margin: 0;
+        background-color: var(--text-primary);
+        animation: pulse 3.5s infinite;
+    }
+
+    .card-image-container img {
+        width: 100%;
+        min-height: 8.5rem;
+        opacity: 0;
+    }
+
+    .card-image-container.loaded {
+        animation: none;
+        background: none;
+    }
+
+    .card-image-container.loaded img {
+        opacity: 1;
+        min-height: auto;
+    }
+
+    @keyframes pulse {
+        0% {
+            opacity: 0;
+        }
+
+        50% {
+            opacity: 0.2;
+        }
+
+        100% {
+            opacity: 0;
+        }
+    }
+</style>

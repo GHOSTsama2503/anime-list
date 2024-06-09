@@ -1,0 +1,38 @@
+@host={{$dotenv API_HOST}}
+
+###
+
+POST {{host}}/remote-search HTTP/1.1
+Accept: application/json
+Content-Type: application/json
+
+{
+    "title": "Naruto"
+}
+
+###
+
+POST {{host}}/animes HTTP/1.1
+Accept: application/json
+Content-Type: application/json
+
+{
+    "id": 20
+}
+
+###
+
+POST {{host}}/animes HTTP/1.1
+Accept: application/json
+Content-Type: application/json
+
+{
+    "id": 20,
+    "group": "Naruto",
+    "group_position": 1
+}
+
+###
+
+GET {{host}}/animes HTTP/1.1
+Accept: application/json
