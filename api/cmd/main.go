@@ -3,10 +3,12 @@ package main
 import (
 	"anime-list/internal"
 	"anime-list/internal/animes"
+	"anime-list/internal/database"
 	"anime-list/internal/env"
 	"fmt"
 	"net/http"
 
+	"github.com/charmbracelet/log"
 	"github.com/danielgtaylor/huma/v2"
 	"github.com/danielgtaylor/huma/v2/adapters/humachi"
 	"github.com/go-chi/chi/v5"
@@ -14,13 +16,23 @@ import (
 )
 
 func main() {
-	env.Load()
+	if err := env.Load(); err != nil {
+		panic(fmt.Sprintf("error loading environment: %v", err))
+	}
+
+	internal.SetupLogger()
+
+	_, err := database.Init()
+	if err != nil {
+		log.Fatal("can not initialize database", "err", err)
+	}
 
 	router := chi.NewRouter()
-	router.Use(middleware.Logger)
+	router.Use(internal.LoggerMidleware)
 	router.Use(middleware.RealIP)
+	router.Use(middleware.Recoverer)
 
-	if env.IsDevelopment() {
+	if env.IsDevelopment {
 		router.Get("/docs", internal.ApiDocsHandler)
 	}
 
@@ -28,9 +40,8 @@ func main() {
 	config.DocsPath = ""
 
 	api := humachi.New(router, config)
-
 	animes.Use(api)
 
-	address := fmt.Sprintf(":%d", env.PORT)
-	http.ListenAndServe(address, router)
+	log.Info("server running! 🦊", "port", env.Port)
+	http.ListenAndServe(fmt.Sprintf(":%d", env.Port), router)
 }
