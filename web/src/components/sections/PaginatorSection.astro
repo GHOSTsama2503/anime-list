@@ -3,41 +3,112 @@ import LimitSelector from "../paginator/LimitSelector.astro";
 ---
 
 <div class="paginator">
-    <label>
-        Search in Descriptions
-        <input type="checkbox" />
-    </label>
+	<label>
+		Search in Descriptions
+		<input type="checkbox" />
+	</label>
 
-    <button class="btn" onclick="prev()">Prev</button>
-    <button class="btn" onclick="next()">Next</button>
+	<button class="btn" id="prev">Prev</button>
+	<button class="btn" id="next">Next</button>
 
-    <LimitSelector />
+	<LimitSelector />
 </div>
 
+<script>
+	type PageParams = {
+		limit: number;
+		offset: number;
+	};
+
+	function getPageParams(): PageParams {
+		const params = new URLSearchParams(window.location.search);
+
+		const limitSelect: HTMLSelectElement | null = document.querySelector(
+			"limit-selector select",
+		);
+		if (limitSelect == null) {
+			throw new Error("limit selector is missing");
+		}
+
+		const limit = params.get("limit") || limitSelect.value;
+		const offset = params.get("offset") || "0";
+
+		const parsedLimit = parseInt(limit);
+		const parsedOffset = parseInt(offset);
+
+		if (isNaN(parsedLimit) || isNaN(parsedOffset)) {
+			throw new Error("invalid limit or offset");
+		}
+
+		return { limit: parsedLimit, offset: parsedOffset };
+	}
+
+	function goTo(params: PageParams) {
+		const urlParams = new URLSearchParams(window.location.search);
+
+		urlParams.set("limit", params.limit.toString());
+		urlParams.set("offset", params.offset.toString());
+
+		window.location.href = `/?${urlParams.toString()}`;
+	}
+
+	function prev() {
+		const params = getPageParams();
+
+		params.offset += params.limit;
+		if (params.offset < 0) {
+			params.offset = 0;
+		}
+
+		goTo(params);
+	}
+
+	function next() {
+		const params = getPageParams();
+		params.offset += params.limit;
+
+		goTo(params);
+	}
+
+	const prevBtn = document.querySelector("#prev");
+	if (prevBtn == null) {
+		throw new Error("prev button is missing");
+	}
+
+	prevBtn.addEventListener("click", prev);
+
+	const nextBtn = document.querySelector("#next");
+	if (nextBtn == null) {
+		throw new Error("prev button is missing");
+	}
+
+	nextBtn.addEventListener("click", next);
+</script>
+
 <style>
-    .paginator {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        gap: 1rem;
-        background-color: var(--bg-primary);
-        padding: 0.3rem;
-        border-radius: var(--border-radius);
-    }
+	.paginator {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		gap: 1rem;
+		background-color: var(--bg-primary);
+		padding: 0.3rem;
+		border-radius: var(--border-radius);
+	}
 
-    .paginator > * {
-        width: 100%;
-        display: inline-flex;
-        justify-content: center;
-    }
+	.paginator > * {
+		width: 100%;
+		display: inline-flex;
+		justify-content: center;
+	}
 
-    .paginator > label {
-        margin: auto;
-    }
+	.paginator > label {
+		margin: auto;
+	}
 
-    .paginator > button {
-        max-width: 10rem;
-        display: inline-flex;
-        align-items: center;
-    }
+	.paginator > button {
+		max-width: 10rem;
+		display: inline-flex;
+		align-items: center;
+	}
 </style>
