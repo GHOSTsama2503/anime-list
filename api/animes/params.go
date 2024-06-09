@@ -19,3 +19,10 @@ type CreateAnimeParams struct {
 	Group         string
 	GroupPosition int
 }
+
+type GetAnimesParams struct {
+	Query              string
+	Limit              int64
+	Offset             int64
+	IncludeDescription bool
+}

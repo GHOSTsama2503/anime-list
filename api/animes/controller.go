@@ -81,23 +81,28 @@ func CreateAnimeController(context context.Context, input *CreateAnimeRequest) (
 func GetAnimesController(context context.Context, input *GetAnimesRequest) (*GetAnimesResponse, error) {
 	response := &GetAnimesResponse{}
 
-	limit := int64(input.Limit)
-	if limit <= 0 {
-		limit = config.Env.DefaultLimit
+	if input.Limit <= 0 {
+		input.Limit = config.Env.DefaultLimit
 	}
 
-	if limit > config.Env.MaxLimit {
-		log.Warnf("request limit (%d) is greater than the max allowed, using fallback: '%d'", limit, config.Env.DefaultLimit)
-		limit = config.Env.DefaultLimit
+	if input.Limit > config.Env.MaxLimit {
+		log.Warnf("request limit (%d) is greater than the max allowed, using fallback: '%d'", input.Limit, config.Env.DefaultLimit)
+		input.Limit = config.Env.DefaultLimit
 	}
 
-	offset := int64(input.Offset)
-	if offset < 0 {
+	if input.Offset < 0 {
 		log.Warnf("request offset is less than zero, using fallback '0'")
-		offset = 0
+		input.Offset = 0
 	}
 
-	animes, err := GetAnimesService(limit, offset)
+	params := GetAnimesParams{
+		Query:              input.Query,
+		Limit:              input.Limit,
+		Offset:             input.Offset,
+		IncludeDescription: input.IncludeDescription,
+	}
+
+	animes, err := GetAnimesService(context, params)
 	if err != nil {
 		return response, err
 	}

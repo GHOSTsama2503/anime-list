@@ -31,12 +31,15 @@ type CreateAnimeResponse struct {
 }
 
 type GetAnimesRequest struct {
-	Offset int `query:"offset"`
-	Limit  int `query:"limit"`
+	Query              string `query:"q"`
+	Offset             int64  `query:"offset"`
+	Limit              int64  `query:"limit"`
+	IncludeDescription bool   `query:"desc"`
 }
 
 type GetAnimesResponse struct {
 	Body struct {
+		Total  int     `json:"total"`
 		Animes []Anime `json:"animes"`
 	}
 }

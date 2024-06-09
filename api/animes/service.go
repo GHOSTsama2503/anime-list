@@ -6,6 +6,7 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
+	"strings"
 )
 
 func CreateAnimeService(params CreateAnimeParams) (anime Anime, err error) {
@@ -77,44 +78,68 @@ func CreateAnimeService(params CreateAnimeParams) (anime Anime, err error) {
 	return
 }
 
-func GetAnimesService(limit int64, offset int64) (animes []Anime, err error) {
+func GetAnimesService(ctx context.Context, params GetAnimesParams) ([]Anime, error) {
 
-	getAnimesParams := queries.GetAnimesParams{
-		Limit:  limit,
-		Offset: offset,
-	}
-
+	var animes []Anime
 	var results []queries.Anime
-	if results, err = database.Query.GetAnimes(context.Background(), getAnimesParams); err != nil {
-		return
+	var err error
+
+	if params.Query == "" {
+
+		queryParams := queries.GetAnimesParams{
+			Limit:  params.Limit,
+			Offset: params.Offset,
+		}
+
+		results, err = database.Query.GetAnimes(ctx, queryParams)
+		if err != nil {
+			return animes, err
+		}
+
+	} else if params.Query != "" && !params.IncludeDescription {
+
+		query := "%" + strings.TrimSpace(params.Query) + "%"
+
+		queryParams := queries.GetAnimesByTitleParams{
+			TitleRomaji:  query,
+			TitleNative:  sql.NullString{String: query, Valid: true},
+			TitleEnglish: sql.NullString{String: query, Valid: true},
+			Limit:        params.Limit,
+			Offset:       params.Offset,
+		}
+
+		results, err = database.Query.GetAnimesByTitle(ctx, queryParams)
+		if err != nil {
+			return animes, err
+		}
+
+	} else if params.Query != "" && params.IncludeDescription {
+
+		query := "%" + strings.TrimSpace(params.Query) + "%"
+
+		queryParams := queries.GetAnimesByTitleAndDescriptionParams{
+			TitleRomaji:  query,
+			TitleNative:  sql.NullString{String: query, Valid: true},
+			TitleEnglish: sql.NullString{String: query, Valid: true},
+			Description:  query,
+			Limit:        params.Limit,
+			Offset:       params.Offset,
+		}
+
+		results, err = database.Query.GetAnimesByTitleAndDescription(ctx, queryParams)
+		if err != nil {
+			return animes, err
+		}
+
 	}
 
 	for _, anime := range results {
-		element := Anime{
-			Id:   int(anime.ID),
-			IdAl: int(anime.IDAl),
-			Title: Title{
-				Romaji:  anime.TitleRomaji,
-				Native:  anime.TitleNative.String,
-				English: anime.TitleEnglish.String,
-			},
-			Format:      anime.Format,
-			Status:      anime.Status,
-			Description: anime.Description,
-			StartDate:   anime.StartDate,
-			EndDate:     anime.EndDate,
-			Season:      anime.Season,
-			SeasonYear:  int(anime.SeasonYear.Int64),
-			Episodes:    int(anime.Episodes),
-			Duration:    int(anime.Duration),
-			BannerImage: anime.BannerImage.String,
-			StImage:     anime.StImage,
-		}
-
+		element := Anime{}
+		element.New(anime, []string{}, []string{}, CoverImage{})
 		animes = append(animes, element)
 	}
 
-	return
+	return animes, nil
 }
 
 func GetAnimeInfoService(ctx context.Context, id int) (Anime, error) {
