@@ -10,6 +10,7 @@ import (
 
 var Db *sql.DB
 var Query *queries.Queries
+var connected bool
 
 func Init() (*sql.DB, error) {
 
@@ -20,6 +21,17 @@ func Init() (*sql.DB, error) {
 
 	Db = db
 	Query = queries.New(db)
+	connected = true
 
 	return db, nil
+}
+
+func CheckConnection() (*sql.DB, error) {
+	if !connected {
+		env.Load("../../.env")
+
+		return Init()
+	}
+
+	return Db, nil
 }

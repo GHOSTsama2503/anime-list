@@ -4,6 +4,7 @@ import (
 	"anime-list/common"
 	"anime-list/internal"
 	"anime-list/internal/animes"
+	"anime-list/internal/auth"
 	"anime-list/internal/database"
 	"anime-list/internal/env"
 	"anime-list/internal/healthcheck"
@@ -44,6 +45,12 @@ func main() {
 	config.DocsPath = ""
 
 	api := humachi.New(router, config)
+
+	// middlewares
+	api.UseMiddleware(auth.NewAuthMiddleware(api))
+
+	// routes
+	auth.Use(api)
 	animes.Use(api)
 	healthcheck.Use(api)
 

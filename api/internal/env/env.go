@@ -25,6 +25,8 @@ var (
 	LogsMaxAge     int
 	LogsCompress   bool
 	LogsLocalTime  bool
+
+	JWTSecret string
 )
 
 func getBoolEnv(name string) bool {
@@ -60,8 +62,8 @@ func getStringEnv(name string) (string, error) {
 	return s, nil
 }
 
-func Load() (err error) {
-	godotenv.Load()
+func Load(filenames ...string) (err error) {
+	godotenv.Load(filenames...)
 
 	if DatabaseUrl, err = getStringEnv("DATABASE_URL"); err != nil {
 		return
@@ -101,6 +103,10 @@ func Load() (err error) {
 
 	LogsCompress = getBoolEnv("LOGS_COMPRESS")
 	LogsLocalTime = getBoolEnv("LOGS_LOCAL_TIME")
+
+	if JWTSecret, err = getStringEnv("JWT_SECRET"); err != nil {
+		return
+	}
 
 	return nil
 }

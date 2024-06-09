@@ -72,3 +72,10 @@ type Synonym struct {
 	AnimeID int64
 	Name    string
 }
+
+type User struct {
+	ID       int64
+	Username string
+	Password string
+	IsAdmin  int64
+}
