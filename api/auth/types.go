@@ -1,7 +1,7 @@
 package auth
 
 import (
-	"anime-list/internal/database/queries"
+	"anime-list/database/queries"
 )
 
 type UserAuth struct {

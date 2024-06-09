@@ -1,8 +1,8 @@
 package animes
 
 import (
-	"anime-list/internal/database"
-	"anime-list/internal/database/queries"
+	"anime-list/database"
+	"anime-list/database/queries"
 	"context"
 	"database/sql"
 	"fmt"

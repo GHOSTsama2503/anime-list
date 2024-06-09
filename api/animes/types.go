@@ -1,6 +1,6 @@
 package animes
 
-import "anime-list/internal/database/queries"
+import "anime-list/database/queries"
 
 type Season string
 

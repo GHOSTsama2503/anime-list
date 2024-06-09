@@ -1,13 +1,14 @@
 package main
 
 import (
+	"anime-list/animes"
+	"anime-list/auth"
 	"anime-list/common"
-	"anime-list/internal"
-	"anime-list/internal/animes"
-	"anime-list/internal/auth"
-	"anime-list/internal/database"
-	"anime-list/internal/env"
-	"anime-list/internal/healthcheck"
+	"anime-list/common/config"
+	"anime-list/common/logging"
+	"anime-list/database"
+	"anime-list/docs"
+	"anime-list/healthcheck"
 	"fmt"
 	"net/http"
 
@@ -19,11 +20,11 @@ import (
 )
 
 func main() {
-	if err := env.Load(); err != nil {
+	if err := config.LoadEnv(); err != nil {
 		panic(fmt.Sprintf("error loading environment: %v", err))
 	}
 
-	internal.SetupLogger()
+	logging.SetupLogger()
 
 	_, err := database.Init()
 	if err != nil {
@@ -33,18 +34,18 @@ func main() {
 	defer database.Db.Close()
 
 	router := chi.NewRouter()
-	router.Use(internal.LoggerMidleware)
+	router.Use(logging.LoggerMidleware)
 	router.Use(middleware.RealIP)
 	router.Use(middleware.Recoverer)
 
-	if env.IsDevelopment {
-		router.Get("/docs", internal.ApiDocsHandler)
+	if !config.Env.IsProduction {
+		router.Get("/docs", docs.ApiDocsHandler)
 	}
 
-	config := huma.DefaultConfig("My Anime List", common.Version())
-	config.DocsPath = ""
+	apiConfig := huma.DefaultConfig("My Anime List", common.Version())
+	apiConfig.DocsPath = ""
 
-	api := humachi.New(router, config)
+	api := humachi.New(router, apiConfig)
 
 	// middlewares
 	api.UseMiddleware(auth.NewAuthMiddleware(api))
@@ -54,6 +55,6 @@ func main() {
 	animes.Use(api)
 	healthcheck.Use(api)
 
-	log.Info("server running! 🦊", "port", env.Port)
-	http.ListenAndServe(fmt.Sprintf(":%d", env.Port), router)
+	log.Info("server running! 🦊", "port", config.Env.Port)
+	http.ListenAndServe(fmt.Sprintf(":%d", config.Env.Port), router)
 }

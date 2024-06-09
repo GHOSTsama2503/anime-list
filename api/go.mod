@@ -3,6 +3,7 @@ module anime-list
 go 1.22.1
 
 require (
+	github.com/caarlos0/env/v11 v11.0.1
 	github.com/charmbracelet/lipgloss v0.10.0
 	github.com/charmbracelet/log v0.4.0
 	github.com/danielgtaylor/huma/v2 v2.10.0

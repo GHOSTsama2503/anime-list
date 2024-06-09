@@ -1,7 +1,7 @@
 package auth_test
 
 import (
-	"anime-list/internal/auth"
+	"anime-list/auth"
 	"fmt"
 	"net/http"
 	"testing"

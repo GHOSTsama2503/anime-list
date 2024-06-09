@@ -1,8 +1,8 @@
 package database
 
 import (
-	"anime-list/internal/database/queries"
-	"anime-list/internal/env"
+	"anime-list/common/config"
+	"anime-list/database/queries"
 	"database/sql"
 
 	_ "github.com/tursodatabase/go-libsql"
@@ -14,7 +14,7 @@ var connected bool
 
 func Init() (*sql.DB, error) {
 
-	db, err := sql.Open("libsql", env.DatabaseUrl)
+	db, err := sql.Open("libsql", config.Env.DatabaseUrl)
 	if err != nil {
 		return db, err
 	}
@@ -28,7 +28,9 @@ func Init() (*sql.DB, error) {
 
 func CheckConnection() (*sql.DB, error) {
 	if !connected {
-		env.Load("../../.env")
+		if err := config.LoadEnv("../.env"); err != nil {
+			return Db, err
+		}
 
 		return Init()
 	}

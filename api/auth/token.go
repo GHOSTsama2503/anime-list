@@ -1,7 +1,7 @@
 package auth
 
 import (
-	"anime-list/internal/env"
+	"anime-list/common/config"
 	"fmt"
 	"time"
 
@@ -18,7 +18,7 @@ func NewToken(username string) (string, error) {
 		"exp":      now.AddDate(0, 1, 0).Unix(),
 	})
 
-	return token.SignedString(env.JWTSecret)
+	return token.SignedString([]byte(config.Env.JWTSecret))
 }
 
 func IsValidToken(tokenStr string) bool {
@@ -28,7 +28,7 @@ func IsValidToken(tokenStr string) bool {
 			return nil, fmt.Errorf("unexpected signing method: %v", t.Header["alg"])
 		}
 
-		return env.JWTSecret, nil
+		return []byte(config.Env.JWTSecret), nil
 	})
 
 	return err == nil

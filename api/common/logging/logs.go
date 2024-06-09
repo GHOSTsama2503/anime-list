@@ -1,7 +1,7 @@
-package internal
+package logging
 
 import (
-	"anime-list/internal/env"
+	"anime-list/common/config"
 	"fmt"
 	"net/http"
 	"os"
@@ -15,19 +15,19 @@ import (
 func logFile(filename string) *lumberjack.Logger {
 	return &lumberjack.Logger{
 		Filename:   filename,
-		MaxSize:    env.LogsMaxSize,
-		MaxBackups: env.LogsMaxBackup,
-		MaxAge:     env.LogsMaxAge,
-		Compress:   env.LogsCompress,
-		LocalTime:  env.LogsLocalTime,
+		MaxSize:    config.Env.LogsMaxSize,
+		MaxBackups: config.Env.LogsMaxBackup,
+		MaxAge:     config.Env.LogsMaxAge,
+		Compress:   config.Env.LogsCompress,
+		LocalTime:  config.Env.LogsLocalTime,
 	}
 }
 
 func SetupLogger() {
 	log.SetTimeFormat(time.DateTime)
 
-	if env.IsProduction {
-		log.SetOutput(logFile(env.LogsAppPath))
+	if config.Env.IsProduction {
+		log.SetOutput(logFile(config.Env.LogsAppPath))
 	}
 }
 
@@ -44,8 +44,8 @@ func LoggerMidleware(h http.Handler) http.Handler {
 	logger.SetStyles(style)
 	logger.SetPrefix("SERV")
 
-	if env.IsProduction {
-		logger.SetOutput(logFile(env.LogsAccessPath))
+	if config.Env.IsProduction {
+		logger.SetOutput(logFile(config.Env.LogsAccessPath))
 	}
 
 	fn := func(w http.ResponseWriter, r *http.Request) {
@@ -57,7 +57,7 @@ func LoggerMidleware(h http.Handler) http.Handler {
 
 		took := time.Since(startTime)
 
-		if env.IsDevelopment || env.PrettyLogs {
+		if !config.Env.IsProduction {
 			logger.Info(fmt.Sprintf(
 				"%s %s %s %s %s - %s %s %s %s - (%s)",
 				ColorMagenta.Render(r.Method),

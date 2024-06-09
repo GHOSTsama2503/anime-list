@@ -1,7 +1,7 @@
 package animes
 
 import (
-	"anime-list/internal/database/queries"
+	"anime-list/database/queries"
 	"context"
 )
 

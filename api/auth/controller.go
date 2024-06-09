@@ -1,7 +1,7 @@
 package auth
 
 import (
-	"anime-list/internal/env"
+	"anime-list/common/config"
 	"context"
 	"net/http"
 	"time"
@@ -54,7 +54,7 @@ func SignInHandler(ctx context.Context, input *AuthRequest) (*SignInResponse, er
 		Name:     "token",
 		Value:    token,
 		HttpOnly: true,
-		Secure:   !env.IsDevelopment,
+		Secure:   config.Env.IsProduction,
 		Expires:  time.Now().AddDate(0, 1, 0),
 	}
 

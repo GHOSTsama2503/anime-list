@@ -1,7 +1,7 @@
 package animes
 
 import (
-	"anime-list/internal/anilist"
+	"anime-list/anilist"
 	"context"
 	"fmt"
 	"net/http"
