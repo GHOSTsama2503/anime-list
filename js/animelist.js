@@ -33,7 +33,7 @@ function createList(animeDB) {
         let info = document.createElement("td")
         let infoLink = document.createElement("a")
 
-        infoLink.href = "https://anilist.co/anime/" + elementId
+        infoLink.href = "https://anilist.co/anime/" + elementId.split("a")[1]
         infoLink.appendChild(document.createTextNode("Info"))
 
         info.appendChild(infoLink)
@@ -62,6 +62,15 @@ function createList(animeDB) {
 
     // insert row
     table.appendChild(tbody)
+
+    // add footer info
+    footer = document.getElementsByTagName("footer")[0]
+
+    total = document.createElement("div")
+    total.setAttribute("class", "fItem")
+    total.appendChild(document.createTextNode("Total: " + listLen))
+    footer.appendChild(total)
+
 }
 
 
