@@ -37,7 +37,7 @@
 
 		getLimitSelect = (): HTMLSelectElement => {
 			const limitSelect: HTMLSelectElement | null =
-				document.querySelector("limit-selector select");
+				document.querySelector("#limit");
 
 			if (limitSelect == null) {
 				throw new Error("limit selector not found");

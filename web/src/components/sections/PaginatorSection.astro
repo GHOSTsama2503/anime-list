@@ -1,17 +1,26 @@
 ---
+import NextIcon from "../icons/NextIcon.astro";
+import PrevIcon from "../icons/PrevIcon.astro";
 import LimitSelector from "../paginator/LimitSelector.astro";
 ---
 
 <div class="paginator">
-	<label>
+	<label class="descriptions-checkbox">
 		Search in Descriptions
 		<input type="checkbox" />
 	</label>
 
-	<button class="btn" id="prev">Prev</button>
-	<button class="btn" id="next">Next</button>
+	<div class="buttons-container">
+		<button class="btn" id="prev">
+			<PrevIcon />
+		</button>
 
-	<LimitSelector />
+		<button class="btn clickable" id="next">
+			<NextIcon />
+		</button>
+	</div>
+
+	<LimitSelector class:list={"limit-label"} />
 </div>
 
 <script>
@@ -23,9 +32,8 @@ import LimitSelector from "../paginator/LimitSelector.astro";
 	function getPageParams(): PageParams {
 		const params = new URLSearchParams(window.location.search);
 
-		const limitSelect: HTMLSelectElement | null = document.querySelector(
-			"limit-selector select",
-		);
+		const limitSelect: HTMLSelectElement | null =
+			document.querySelector("#limit");
 		if (limitSelect == null) {
 			throw new Error("limit selector is missing");
 		}
@@ -55,7 +63,7 @@ import LimitSelector from "../paginator/LimitSelector.astro";
 	function prev() {
 		const params = getPageParams();
 
-		params.offset += params.limit;
+		params.offset -= params.limit;
 		if (params.offset < 0) {
 			params.offset = 0;
 		}
@@ -75,7 +83,13 @@ import LimitSelector from "../paginator/LimitSelector.astro";
 		throw new Error("prev button is missing");
 	}
 
-	prevBtn.addEventListener("click", prev);
+	const params = getPageParams();
+	if (params.offset > 0) {
+		prevBtn.addEventListener("click", prev);
+		prevBtn.classList.add("clickable");
+	} else {
+		prevBtn.classList.add("btn-disabled");
+	}
 
 	const nextBtn = document.querySelector("#next");
 	if (nextBtn == null) {
@@ -87,28 +101,67 @@ import LimitSelector from "../paginator/LimitSelector.astro";
 
 <style>
 	.paginator {
-		display: flex;
-		flex-direction: row;
-		justify-content: space-between;
-		gap: 1rem;
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		grid-template-rows: repeat(2, 1fr);
+		gap: 0.5rem;
 		background-color: var(--bg-primary);
-		padding: 0.3rem;
+		padding: 0.5rem;
 		border-radius: var(--border-radius);
 	}
 
-	.paginator > * {
-		width: 100%;
-		display: inline-flex;
+	.descriptions-checkbox {
+		grid-column-start: 1;
+		grid-column-end: 4;
+		display: flex;
 		justify-content: center;
-	}
-
-	.paginator > label {
-		margin: auto;
-	}
-
-	.paginator > button {
-		max-width: 10rem;
-		display: inline-flex;
 		align-items: center;
+	}
+
+	.buttons-container {
+		grid-column-start: 1;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		gap: 0.5rem;
+	}
+
+	.limit-label {
+		grid-column-start: 2;
+		grid-column-end: 4;
+		display: flex;
+		justify-content: flex-end;
+	}
+
+	.btn {
+		width: 2rem;
+		font-size: xx-large;
+		display: flex;
+		align-items: center;
+	}
+
+	.btn-disabled {
+		cursor: not-allowed;
+		opacity: 40%;
+	}
+
+	@media (min-width: 640px) {
+		.paginator {
+			grid-template-columns: repeat(3, 1fr);
+			grid-template-rows: 1fr;
+		}
+
+		.descriptions-checkbox {
+			grid-column-end: 2;
+			justify-content: flex-start;
+		}
+
+		.buttons-container {
+			grid-column-start: 2;
+		}
+
+		.limit-label {
+			grid-column-start: 3;
+		}
 	}
 </style>
