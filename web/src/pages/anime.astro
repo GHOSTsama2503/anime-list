@@ -1,0 +1,112 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout title="Anime" lang="en">
+    <div class="container">
+        <img class="banner-img" />
+
+        <div class="content">
+            <h2 class="title"></h2>
+
+            <p class="description"></p>
+
+            <div class="genre-list"></div>
+            <div hidden class="genre clickable"></div>
+        </div>
+    </div>
+</Layout>
+
+<script>
+    const params = new URLSearchParams(window.location.search);
+
+    let id: number;
+
+    const idStr = params.get("id");
+    if (idStr === null) {
+        throw new Error("not found id in query params");
+    }
+
+    id = parseInt(idStr);
+    if (isNaN(id)) {
+        throw new Error("id is not a number");
+    }
+
+    const res = await fetch(`/api/animes/${id}`);
+    if (!res.ok) {
+        throw new Error(`api response with status: ${res.status}`);
+    }
+
+    const data = await res.json();
+
+    const bannerImg: HTMLImageElement | null =
+        document.querySelector(".banner-img");
+    if (bannerImg !== null) {
+        bannerImg.alt = data?.title?.romaji;
+        bannerImg.src = data?.banner_image;
+    }
+
+    const title = document.querySelector(".title");
+    if (title !== null) {
+        title.textContent = data?.title?.romaji;
+    }
+
+    const description = document.querySelector(".description");
+    if (description !== null) {
+        description.textContent = data?.description;
+    }
+
+    const genreList = document.querySelector(".genre-list");
+    if (genreList === null) {
+        throw new Error("not found genre-list element");
+    }
+
+    const genre: HTMLDivElement | null = document.querySelector(".genre");
+    if (genre === null) {
+        throw new Error("genre 'template' not found");
+    }
+
+    for (const name of data?.genres) {
+        const newElement = genre.cloneNode(true) as HTMLDivElement;
+
+        newElement.textContent = name;
+        newElement.removeAttribute("hidden");
+
+        genreList.appendChild(newElement);
+    }
+</script>
+
+<style>
+    :root {
+        background-color: var(--bg-primary);
+    }
+
+    .banner-img {
+        width: 100%;
+        height: 15rem;
+    }
+
+    .content {
+        padding: 0.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .title {
+        margin: 0;
+    }
+
+    .genre-list {
+        display: flex;
+        flex-direction: row;
+        gap: 0.5rem;
+    }
+
+    .genre {
+        padding: 0.1em;
+        border: 1px solid var(--primary);
+        border-radius: var(--border-radius);
+        background-color: var(--primary);
+    }
+</style>
