@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS animes (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   id_al INTEGER NOT NULL,
-  title_romaji TEXT NOT NULL,
+  title_romaji TEXT UNIQUE NOT NULL,
   title_native TEXT,
   title_english TEXT,
   format TEXT NOT NULL,
@@ -31,8 +31,8 @@ CREATE TABLE IF NOT EXISTS anime_genres (
 
   PRIMARY KEY (anime_id, genre_id),
 
-  CONSTRAINT anime_genres_anime_id FOREIGN KEY (anime_id) REFERENCES animes(id),
-  CONSTRAINT anime_genres_genre_id FOREIGN KEY (genre_id) REFERENCES genres(id)
+  CONSTRAINT anime_genres_anime_id FOREIGN KEY (anime_id) REFERENCES animes(id) ON DELETE CASCADE,
+  CONSTRAINT anime_genres_genre_id FOREIGN KEY (genre_id) REFERENCES genres(id) ON DELETE CASCADE
 );
 
 
@@ -48,8 +48,8 @@ CREATE TABLE IF NOT EXISTS anime_studios (
 
   PRIMARY KEY (anime_id, studio_id),
 
-  CONSTRAINT anime_studios_anime_id FOREIGN KEY (anime_id) REFERENCES animes(id),
-  CONSTRAINT anime_studios_studio_id FOREIGN KEY (studio_id) REFERENCES studios(id)
+  CONSTRAINT anime_studios_anime_id FOREIGN KEY (anime_id) REFERENCES animes(id) ON DELETE CASCADE,
+  CONSTRAINT anime_studios_studio_id FOREIGN KEY (studio_id) REFERENCES studios(id) ON DELETE CASCADE
 );
 
 
