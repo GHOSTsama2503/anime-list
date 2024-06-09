@@ -32,6 +32,18 @@ func (q *Queries) DeleteGenre(ctx context.Context, id int64) error {
 	return err
 }
 
+const findGenre = `-- name: FindGenre :one
+SELECT id, name FROM genres
+WHERE name = ?
+`
+
+func (q *Queries) FindGenre(ctx context.Context, name string) (Genre, error) {
+	row := q.db.QueryRowContext(ctx, findGenre, name)
+	var i Genre
+	err := row.Scan(&i.ID, &i.Name)
+	return i, err
+}
+
 const getGenre = `-- name: GetGenre :one
 SELECT id, name FROM genres
 WHERE id = ?

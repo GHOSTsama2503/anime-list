@@ -9,6 +9,11 @@ SELECT * FROM genres
 WHERE id = ?;
 
 
+-- name: FindGenre :one
+SELECT * FROM genres
+WHERE name = ?;
+
+
 -- name: UpdateGenre :one
 UPDATE genres
 SET name = ?
