@@ -4,10 +4,10 @@ import CardImage from "./CardImage.astro";
 
 <template id="template">
     <div class="card">
-        <CardImage />
+        <a class="image-link"><CardImage /></a>
 
         <div class="card-content">
-            <h4></h4>
+            <a class="title-link"><h4 class="card-title clickable"></h4></a>
 
             <p></p>
         </div>
@@ -21,13 +21,13 @@ import CardImage from "./CardImage.astro";
         gap: 0;
         background-color: var(--bg-primary);
         border-radius: 0.5rem;
-        cursor: pointer;
         overflow: hidden;
         transition: all 0.1s;
     }
 
-    .card:hover {
-        opacity: 80%;
+    .card a {
+        color: var(--text-primary);
+        text-decoration: none;
     }
 
     .card-content {
@@ -37,7 +37,7 @@ import CardImage from "./CardImage.astro";
         padding: 0.6rem;
     }
 
-    .card-content h4 {
+    .card-title {
         margin: 0;
         font-size: 1.05em;
     }

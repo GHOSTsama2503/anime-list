@@ -42,3 +42,8 @@ SELECT * FROM animes
 ORDER BY title_romaji COLLATE NOCASE ASC
 LIMIT ?
 OFFSET ?;
+
+
+-- name: GetAnime :one
+SELECT * FROM animes
+WHERE id = ?;

@@ -1,5 +1,7 @@
 package animes
 
+import "anime-list/internal/database/queries"
+
 type Season string
 
 const (
@@ -28,6 +30,29 @@ type Anime struct {
 	CoverImage  CoverImage `json:"cover_image"`
 	BannerImage string     `json:"banner_image"`
 	StImage     string     `json:"st_image"`
+}
+
+func (anime *Anime) New(model queries.Anime, genres, studios []string, cover CoverImage) {
+	anime.Id = int(model.ID)
+	anime.IdAl = int(model.IDAl)
+	anime.Title = Title{
+		Romaji:  model.TitleRomaji,
+		Native:  model.TitleNative.String,
+		English: model.TitleEnglish.String,
+	}
+	anime.Format = model.Format
+	anime.Status = model.Status
+	anime.Description = model.Description
+	anime.StartDate = model.StartDate
+	anime.EndDate = model.EndDate
+	anime.Season = model.Season
+	anime.SeasonYear = int(model.SeasonYear.Int64)
+	anime.Episodes = int(model.Episodes)
+	anime.Duration = int(model.Duration)
+	anime.Genres = genres
+	anime.Studios = studios
+	anime.BannerImage = model.BannerImage.String
+	anime.StImage = model.StImage
 }
 
 type Title struct {

@@ -56,6 +56,37 @@ func (q *Queries) GetGenre(ctx context.Context, id int64) (Genre, error) {
 	return i, err
 }
 
+const getGenres = `-- name: GetGenres :many
+SELECT name FROM genres
+WHERE id IN (
+    SELECT genre_id FROM anime_genres
+    WHERE anime_id = ?
+)
+`
+
+func (q *Queries) GetGenres(ctx context.Context, animeID int64) ([]string, error) {
+	rows, err := q.db.QueryContext(ctx, getGenres, animeID)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []string
+	for rows.Next() {
+		var name string
+		if err := rows.Scan(&name); err != nil {
+			return nil, err
+		}
+		items = append(items, name)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
 const updateGenre = `-- name: UpdateGenre :one
 UPDATE genres
 SET name = ?

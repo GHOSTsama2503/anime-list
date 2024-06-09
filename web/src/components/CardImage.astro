@@ -1,12 +1,6 @@
-<figure class="card-image-container">
-    <img loading="lazy" onload="loaded(this)" />
+<figure class="card-image-container clickable">
+    <img loading="lazy" onload="imageLoaded(this)" />
 </figure>
-
-<script defer>
-    function loaded(event) {
-        event?.parentNode?.classList.add("loaded");
-    }
-</script>
 
 <style>
     .card-image-container {

@@ -117,8 +117,27 @@ func GetAnimesService(limit int64, offset int64) (animes []Anime, err error) {
 	return
 }
 
-func GetAnimeInfoService(id int) (anime Anime, err error) {
-	return
+func GetAnimeInfoService(ctx context.Context, id int) (Anime, error) {
+	var anime Anime
+
+	result, err := database.Query.GetAnime(ctx, int64(id))
+	if err != nil {
+		return anime, err
+	}
+
+	genres, err := database.Query.GetGenres(ctx, result.ID)
+	if err != nil {
+		return anime, err
+	}
+
+	studios, err := database.Query.GetStudios(ctx, result.ID)
+	if err != nil {
+		return anime, err
+	}
+
+	anime.New(result, genres, studios, CoverImage{})
+
+	return anime, nil
 }
 
 func UpdateAnime(id int) {}

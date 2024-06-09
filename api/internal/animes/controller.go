@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/charmbracelet/log"
 	"github.com/danielgtaylor/huma/v2"
 	"github.com/google/uuid"
 )
@@ -102,6 +103,21 @@ func GetAnimesController(context context.Context, input *GetAnimesRequest) (*Get
 func GetAnimeInfoController(context context.Context, input *GetAnimeInfoRequest) (*GetAnimeInfoResponse, error) {
 	response := &GetAnimeInfoResponse{}
 
+	anime, err := GetAnimeInfoService(context, input.Id)
+	if err != nil {
+		errId := uuid.New()
+		errMsg := "error getting anime info"
+
+		log.Error(errMsg,
+			"id", errId,
+			"err", err,
+		)
+
+		return response, fmt.Errorf("%s, id: %s", errMsg, errId)
+	}
+
+	response.Body = anime
+
 	return response, nil
 }
 
@@ -131,7 +147,7 @@ func Use(api huma.API) {
 	huma.Register(api, huma.Operation{
 		OperationID: "get-anime",
 		Method:      http.MethodGet,
-		Path:        "/anime/$1",
+		Path:        "/animes/{id}",
 		Summary:     "Get anime info",
 	}, GetAnimeInfoController)
 }

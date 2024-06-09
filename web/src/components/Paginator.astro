@@ -1,6 +1,12 @@
 <div class="paginator">
     <button onclick="prev()">Prev</button>
     <button onclick="next()">Next</button>
+
+    <select id="limit">
+        <option class="input" value="20" selected>20</option>
+        <option class="input" value="35">35</option>
+        <option class="input" value="50">50</option>
+    </select>
 </div>
 
 <style>
@@ -12,39 +18,3 @@
         padding-top: 0.8rem;
     }
 </style>
-
-<script defer>
-    function getLO() {
-        const queryParams = new URLSearchParams(window.location.search);
-
-        let limit = parseInt(queryParams.get("limit"));
-        if (isNaN(limit)) {
-            limit = 10;
-        }
-
-        let offset = parseInt(queryParams.get("offset"));
-        if (isNaN(offset)) {
-            offset = 0;
-        }
-
-        return { limit, offset };
-    }
-
-    function goTo(limit, offset) {
-        window.location.href =
-            window.location.origin + `?limit=${limit}&offset=${offset}`;
-    }
-
-    function prev() {
-        const lo = getLO();
-        if (lo.offset >= 10) {
-            goTo(lo.limit, lo.offset - 10);
-        }
-    }
-
-    function next() {
-        const lo = getLO();
-
-        goTo(lo.limit, lo.offset + 10);
-    }
-</script>

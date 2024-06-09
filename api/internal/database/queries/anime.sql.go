@@ -111,6 +111,36 @@ func (q *Queries) CreateAnime(ctx context.Context, arg CreateAnimeParams) (Anime
 	return i, err
 }
 
+const getAnime = `-- name: GetAnime :one
+SELECT id, id_al, title_romaji, title_native, title_english, format, status, description, start_date, end_date, season, season_year, episodes, duration, banner_image, st_image, group_position FROM animes
+WHERE id = ?
+`
+
+func (q *Queries) GetAnime(ctx context.Context, id int64) (Anime, error) {
+	row := q.db.QueryRowContext(ctx, getAnime, id)
+	var i Anime
+	err := row.Scan(
+		&i.ID,
+		&i.IDAl,
+		&i.TitleRomaji,
+		&i.TitleNative,
+		&i.TitleEnglish,
+		&i.Format,
+		&i.Status,
+		&i.Description,
+		&i.StartDate,
+		&i.EndDate,
+		&i.Season,
+		&i.SeasonYear,
+		&i.Episodes,
+		&i.Duration,
+		&i.BannerImage,
+		&i.StImage,
+		&i.GroupPosition,
+	)
+	return i, err
+}
+
 const getAnimes = `-- name: GetAnimes :many
 SELECT id, id_al, title_romaji, title_native, title_english, format, status, description, start_date, end_date, season, season_year, episodes, duration, banner_image, st_image, group_position FROM animes
 ORDER BY title_romaji COLLATE NOCASE ASC

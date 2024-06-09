@@ -15,23 +15,17 @@ export interface Props {
         <meta name="generator" content={Astro.generator} />
         <link rel="shortcut icon" href="/favicon.svg" type="image/svg+xml" />
         <title>{title}</title>
+
+        <link rel="stylesheet" href="/styles/global.css" />
     </head>
 
     <body>
         <slot />
     </body>
 
-    <style is:global>
-        :root {
-            --primary: #7723a8;
-            --secondary: #137bc0;
-            --bg-primary: #23262f;
-            --bg-secondary: #17181c;
-            --text-primary: #ffffff;
-            --text-secondary: #e9e9e9;
-
-            background-color: var(--bg-secondary);
-            color: var(--text-secondary);
+    <script async>
+        function imageLoaded(event) {
+            event?.parentNode?.classList.add("loaded");
         }
-    </style>
+    </script>
 </html>

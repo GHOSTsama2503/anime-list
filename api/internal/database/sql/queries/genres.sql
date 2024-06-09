@@ -9,6 +9,14 @@ SELECT * FROM genres
 WHERE id = ?;
 
 
+-- name: GetGenres :many
+SELECT name FROM genres
+WHERE id IN (
+    SELECT genre_id FROM anime_genres
+    WHERE anime_id = ?
+);
+
+
 -- name: FindGenre :one
 SELECT * FROM genres
 WHERE name = ?;

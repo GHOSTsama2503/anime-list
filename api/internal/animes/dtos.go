@@ -41,9 +41,13 @@ type GetAnimesResponse struct {
 	}
 }
 
-type GetAnimeInfoRequest struct{}
+type GetAnimeInfoRequest struct {
+	Id int `path:"id"`
+}
 
-type GetAnimeInfoResponse struct{}
+type GetAnimeInfoResponse struct {
+	Body Anime
+}
 
 // type CreateAnimeParams struct {
 // 	IdAl            int        `json:"id_al" binding:"required" doc:"Anilist ID" minimum:"1"`

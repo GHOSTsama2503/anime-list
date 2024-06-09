@@ -15,23 +15,54 @@ import Paginator from "../components/Paginator.astro";
 	<CardTemplate />
 
 	<script>
-		async function getAnimes() {
+		type LimitAndOffset = { limit: number; offset: number };
+
+		function getLimitAndOffset(): LimitAndOffset {
+			const result: LimitAndOffset = {
+				limit: 0,
+				offset: 0,
+			};
+
+			type Limit = HTMLSelectElement | null;
+
+			const limit: Limit = document.querySelector("#limit");
+			if (limit === null) {
+				throw new Error("limit selector not found");
+			}
+
+			result.limit = parseInt(limit.value);
+			if (isNaN(result.limit)) {
+				throw new Error("limit is not a number");
+			}
+
 			const queryParams = new URLSearchParams(window.location.search);
 
-			let limit = queryParams.get("limit");
-			if (limit == null) {
-				limit = 10;
+			let offsetValue = 0;
+
+			const offset = queryParams.get("offset");
+			if (offset !== null) {
+				const parsedOffset = parseInt(offset);
+
+				if (!isNaN(parsedOffset)) {
+					offsetValue = parsedOffset;
+				}
 			}
 
-			let offset = queryParams.get("offset");
-			if (offset == null) {
-				offset = 0;
-			}
+			result.offset = offsetValue;
+
+			return result;
+		}
+
+		const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+
+		async function getAnimes() {
+			const { limit, offset } = getLimitAndOffset();
 
 			const url = `/api/animes?limit=${limit}&offset=${offset}`;
 			let res = await fetch(url);
 
 			while (!res.ok) {
+				await sleep(500);
 				res = await getAnimes();
 			}
 
@@ -61,6 +92,7 @@ import Paginator from "../components/Paginator.astro";
 			title: { romaji: string; native: string; english: string };
 			description: string;
 			image: string;
+			st_image: string;
 		}
 
 		let data = await response;
@@ -75,10 +107,24 @@ import Paginator from "../components/Paginator.astro";
 
 			const img = element.querySelector("img");
 			if (img != null) {
-				img.src = "/20.webp";
+				img.src = anime.st_image;
 				img.alt = "Banner of " + anime.title;
 			} else {
 				notFound("img");
+			}
+
+			const link = `/anime?id=${anime.id}`;
+
+			const imageLink: HTMLAnchorElement | null =
+				element.querySelector(".image-link");
+			if (imageLink != null) {
+				imageLink.href = link;
+			}
+
+			const titleLink: HTMLAnchorElement | null =
+				element.querySelector(".title-link");
+			if (titleLink != null) {
+				titleLink.href = link;
 			}
 
 			const title = element.querySelector("h4");
@@ -96,6 +142,24 @@ import Paginator from "../components/Paginator.astro";
 			}
 
 			container.appendChild(element);
+		}
+
+		function goTo(limit, offset) {
+			window.location.href =
+				window.location.origin + `?limit=${limit}&offset=${offset}`;
+		}
+
+		function prev() {
+			const { limit, offset } = getLimitAndOffset();
+			if (offset >= 10) {
+				goTo(limit, offset - limit);
+			}
+		}
+
+		function next() {
+			const { limit, offset } = getLimitAndOffset();
+
+			goTo(limit, offset + limit);
 		}
 	</script>
 </Layout>
