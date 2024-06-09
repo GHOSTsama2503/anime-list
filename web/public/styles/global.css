@@ -1,0 +1,41 @@
+:root {
+	/* colors */
+	--primary: #7480ff;
+	--secondary: #137bc0;
+	--bg-primary: #23262f;
+	--bg-secondary: #17181c;
+	--text-primary: #ffffff;
+	--text-secondary: #e9e9e9;
+
+	/* constants */
+	--border-radius: 0.3rem;
+	--hover-opacity: 80%;
+
+	/* default styles */
+	background-color: var(--bg-secondary);
+	color: var(--text-secondary);
+
+	/* center content on large displays */
+	max-width: 1366px;
+	margin: 0 auto;
+}
+
+button,
+select {
+	border: 0;
+	border-radius: var(--border-radius);
+	background-color: var(--primary);
+	font-size: 1em;
+	font-weight: 500;
+	cursor: pointer;
+	height: 2rem;
+	min-height: 2rem;
+}
+
+.clickable {
+	cursor: pointer;
+}
+
+.clickable:hover {
+	opacity: 80%;
+}
