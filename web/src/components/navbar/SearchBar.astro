@@ -3,33 +3,50 @@ import SearchIcon from "../icons/SearchIcon.astro";
 ---
 
 <div class="search-bar">
-    <input id="search" type="text" placeholder="Buscar..." />
-    <SearchIcon class="search-icon" style="font-size: 1.5rem;" />
+	<form>
+		<input id="search" type="text" placeholder="Buscar..." />
+	</form>
+	<SearchIcon class="search-icon clickable" style="font-size: 1.5rem;" />
 </div>
 
+<script>
+	const search: HTMLInputElement | null = document.querySelector("#search");
+	if (search == null) {
+		throw new Error("search input is missing");
+	}
+
+	const params = new URLSearchParams(window.location.search);
+	search.value = params.get("q") || "";
+
+	search.parentNode?.addEventListener("submit", (event) => {
+		event.preventDefault();
+
+		params.set("q", search.value);
+
+		window.location.href = `/?${params.toString()}`;
+	});
+</script>
+
 <style>
-    .search-bar {
-        display: flex;
+	.search-bar {
+		display: flex;
+		border: 0.1rem solid var(--bg-primary);
+		border-radius: var(--border-radius);
+	}
 
-        --border-color: rgb(130, 130, 130);
-    }
+	.search-bar input {
+		background-color: var(--bg-primary);
+		border: none;
+		outline: none;
+		color: var(--text-secondary);
+		max-width: 10rem;
+	}
 
-    .search-bar input {
-        background-color: var(--bg-primary);
-        border: 0.1rem solid var(--border-color);
-        border-radius: 0.3rem;
-        border-right: 0;
-        border-top-right-radius: 0;
-        border-bottom-right-radius: 0;
-        color: var(--text-primary);
-        max-width: 10rem;
-    }
+	.search-icon {
+		cursor: pointer;
+	}
 
-    .search-icon {
-        border: 0.1rem solid var(--border-color);
-        border-radius: 0.3rem;
-        border-left: 0;
-        border-top-left-radius: 0;
-        border-bottom-left-radius: 0;
-    }
+	.search-bar:focus-within {
+		border-color: var(--primary);
+	}
 </style>

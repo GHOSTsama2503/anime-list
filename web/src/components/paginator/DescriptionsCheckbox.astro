@@ -1,0 +1,27 @@
+<label class="descriptions-checkbox" {...Astro.props}>
+	Search in Descriptions
+	<input type="checkbox" />
+</label>
+
+<script>
+	const checkbox: HTMLInputElement | null = document.querySelector(
+		".descriptions-checkbox input",
+	);
+
+	if (checkbox == null) {
+		throw new Error("descriptions checkbox is missing");
+	}
+
+	checkbox.checked = localStorage.getItem("desc") == "1";
+
+	checkbox.addEventListener("change", () => {
+		const value = checkbox.checked ? "1" : "0";
+
+		localStorage.setItem("desc", value);
+
+		const params = new URLSearchParams(window.location.search);
+		params.set("desc", value);
+
+		window.location.href = `/?${params.toString()}`;
+	});
+</script>

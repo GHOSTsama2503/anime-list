@@ -1,14 +1,12 @@
 ---
 import NextIcon from "../icons/NextIcon.astro";
 import PrevIcon from "../icons/PrevIcon.astro";
+import DescriptionsCheckbox from "../paginator/DescriptionsCheckbox.astro";
 import LimitSelector from "../paginator/LimitSelector.astro";
 ---
 
 <div class="paginator">
-	<label class="descriptions-checkbox">
-		Search in Descriptions
-		<input type="checkbox" />
-	</label>
+	<DescriptionsCheckbox />
 
 	<div class="buttons-container">
 		<button class="btn" id="prev">
