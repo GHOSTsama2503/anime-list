@@ -23,8 +23,18 @@ type CreateAnimeRequest struct {
 }
 
 type CreateAnimeResponse struct {
-	Body string `json:"body"`
+	Body struct {
+		Ok bool `json:"ok"`
+	} `json:"body"`
 }
+
+type GetAnimesRequest struct{}
+
+type GetAnimesResponse struct{}
+
+type GetAnimeInfoRequest struct{}
+
+type GetAnimeInfoResponse struct{}
 
 // type CreateAnimeParams struct {
 // 	IdAl            int        `json:"id_al" binding:"required" doc:"Anilist ID" minimum:"1"`

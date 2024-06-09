@@ -1,4 +1,4 @@
-@host=http://localhost:8000
+@host={{$dotenv API_HOST}}
 
 ###
 
@@ -9,7 +9,6 @@ Content-Type: application/json
 {
     "title": "Naruto"
 }
-
 
 ###
 
