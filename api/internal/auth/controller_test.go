@@ -50,4 +50,11 @@ func TestSignInHandler(t *testing.T) {
 	if authRes.Code != http.StatusOK {
 		t.Fatalf("auth response with status: %s", http.StatusText(authRes.Code))
 	}
+
+	fakeCookieHeader := fmt.Sprintf("Cookie: token=%s", "super reliable user")
+
+	fakeAuthRes := api.Get("/auth", fakeCookieHeader)
+	if fakeAuthRes.Code != http.StatusUnauthorized {
+		t.Fatalf("token validation does not work, response with status: %s", http.StatusText(fakeAuthRes.Code))
+	}
 }

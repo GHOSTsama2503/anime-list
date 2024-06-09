@@ -31,6 +31,11 @@ func NewAuthMiddleware(api huma.API) func(huma.Context, func(huma.Context)) {
 			return
 		}
 
+		if !IsValidToken(token.Value) {
+			huma.WriteErr(api, ctx, http.StatusUnauthorized, http.StatusText(http.StatusUnauthorized))
+			return
+		}
+
 		next(ctx)
 	}
 }

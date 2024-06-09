@@ -3,28 +3,12 @@ package auth
 import (
 	"anime-list/internal/database"
 	"anime-list/internal/database/queries"
-	"anime-list/internal/env"
 	"context"
 	"errors"
-	"time"
 
 	"github.com/charmbracelet/log"
-	"github.com/golang-jwt/jwt"
 	"golang.org/x/crypto/bcrypt"
 )
-
-func NewToken(username string) (string, error) {
-
-	now := time.Now()
-
-	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-		"username": username,
-		"iat":      now.Unix(),
-		"exp":      now.AddDate(0, 1, 0).Unix(),
-	})
-
-	return token.SignedString([]byte(env.JWTSecret))
-}
 
 func CreatePasswordHash(password string) (string, error) {
 	hash, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)

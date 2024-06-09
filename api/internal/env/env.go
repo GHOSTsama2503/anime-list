@@ -26,7 +26,7 @@ var (
 	LogsCompress   bool
 	LogsLocalTime  bool
 
-	JWTSecret string
+	JWTSecret []byte
 )
 
 func getBoolEnv(name string) bool {
@@ -104,9 +104,12 @@ func Load(filenames ...string) (err error) {
 	LogsCompress = getBoolEnv("LOGS_COMPRESS")
 	LogsLocalTime = getBoolEnv("LOGS_LOCAL_TIME")
 
-	if JWTSecret, err = getStringEnv("JWT_SECRET"); err != nil {
+	var jwtSecret string
+	if jwtSecret, err = getStringEnv("JWT_SECRET"); err != nil {
 		return
 	}
+
+	JWTSecret = []byte(jwtSecret)
 
 	return nil
 }
