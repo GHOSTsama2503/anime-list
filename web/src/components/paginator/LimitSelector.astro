@@ -1,0 +1,42 @@
+<limit-selector>
+	<select class="select">
+		<option class="input" value="20" selected>20</option>
+		<option class="input" value="35">35</option>
+		<option class="input" value="50">50</option>
+	</select>
+</limit-selector>
+
+<script>
+	class LimitSelector extends HTMLElement {
+		select: HTMLSelectElement;
+
+		constructor() {
+			super();
+
+			const select = this.querySelector("select");
+			if (select == null) {
+				throw new Error("limit select element is missing");
+			}
+
+			this.select = select;
+
+			const params = new URLSearchParams(window.location.search);
+
+			const limit = params.get("limit");
+			if (limit != null) {
+				this.select.value = limit;
+			}
+
+			this.select.addEventListener("change", this.changeLimit);
+		}
+
+		changeLimit = () => {
+			const params = new URLSearchParams(window.location.search);
+			params.set("limit", this.select.value);
+
+			window.location.href = `/?${params.toString()}`;
+		};
+	}
+
+	customElements.define("limit-selector", LimitSelector);
+</script>

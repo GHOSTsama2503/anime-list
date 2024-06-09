@@ -1,0 +1,47 @@
+---
+import GithubIcon from "../icons/GithubIcon.astro";
+---
+
+<footer>
+	<span>
+		<a href="https://ghostsrv.ydns.eu">GHOST</a> Copyright © 2024 All Rights
+		Reserved
+	</span>
+	<span>
+		<GithubIcon class="icon" />
+	</span>
+</footer>
+
+<style>
+	footer {
+		width: 100%;
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		align-items: center;
+		background-color: var(--bg-primary);
+		border-radius: var(--border-radius);
+		padding: 0.5rem;
+		box-sizing: border-box;
+		color: var(--text-secondary);
+		gap: 1rem;
+	}
+
+	footer a {
+		color: var(--primary);
+		text-decoration: none;
+	}
+
+	footer a:hover {
+		text-decoration: underline;
+	}
+
+	.icon {
+		color: var(--text-secondary);
+		height: 1.5rem;
+		width: 1.5rem;
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+	}
+</style>

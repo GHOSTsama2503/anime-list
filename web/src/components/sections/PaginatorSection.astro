@@ -1,0 +1,19 @@
+---
+import LimitSelector from "../paginator/LimitSelector.astro";
+---
+
+<div class="paginator">
+    <button class="btn" onclick="prev()">Prev</button>
+    <button class="btn" onclick="next()">Next</button>
+
+    <LimitSelector />
+</div>
+
+<style>
+    .paginator {
+        height: 2rem;
+        display: flex;
+        justify-content: center;
+        gap: 3rem;
+    }
+</style>

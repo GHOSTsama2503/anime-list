@@ -1,18 +1,20 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import Navbar from "../components/Navbar.astro";
+import NavbarSection from "../components/sections/NavbarSection.astro";
 import CardTemplate from "../components/CardTemplate.astro";
-import AnimeContainer from "../components/AnimeContainer.astro";
 import Loading from "../components/Loading.astro";
-import Paginator from "../components/Paginator.astro";
+import Paginator from "../components/sections/PaginatorSection.astro";
+import AnimesSection from "../components/sections/AnimesSection.astro";
+import FooterSection from "../components/sections/FooterSection.astro";
 ---
 
 <Layout lang="en" title="Anime List">
-	<Navbar />
+	<NavbarSection />
 	<Paginator />
-	<AnimeContainer />
+	<AnimesSection />
 	<Loading />
 	<CardTemplate />
+	<FooterSection />
 
 	<script>
 		type LimitAndOffset = { limit: number; offset: number };
@@ -23,9 +25,10 @@ import Paginator from "../components/Paginator.astro";
 				offset: 0,
 			};
 
-			type Limit = HTMLSelectElement | null;
+			const limit: HTMLSelectElement | null = document.querySelector(
+				"limit-selector select",
+			);
 
-			const limit: Limit = document.querySelector("#limit");
 			if (limit === null) {
 				throw new Error("limit selector not found");
 			}
@@ -87,13 +90,14 @@ import Paginator from "../components/Paginator.astro";
 			"#template",
 		) as HTMLTemplateElement;
 
-		class Anime {
+		type Anime = {
 			id: number;
+			id_al: number;
 			title: { romaji: string; native: string; english: string };
 			description: string;
 			image: string;
 			st_image: string;
-		}
+		};
 
 		let data = await response;
 		let animes: Anime[] = (await data.json())?.animes;
@@ -107,7 +111,7 @@ import Paginator from "../components/Paginator.astro";
 
 			const img = element.querySelector("img");
 			if (img != null) {
-				img.src = anime.st_image;
+				img.src = `/img/${anime.id_al}`;
 				img.alt = "Banner of " + anime.title;
 			} else {
 				notFound("img");
@@ -144,7 +148,7 @@ import Paginator from "../components/Paginator.astro";
 			container.appendChild(element);
 		}
 
-		function goTo(limit, offset) {
+		function goTo(limit: number, offset: number) {
 			window.location.href =
 				window.location.origin + `?limit=${limit}&offset=${offset}`;
 		}

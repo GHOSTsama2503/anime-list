@@ -1,7 +1,8 @@
 ---
-import MenuIcon from "./icons/MenuIcon.astro";
-import SearchBar from "./SearchBar.astro";
-import NewIcon from "./icons/NewIcon.astro";
+import MenuIcon from "../icons/MenuIcon.astro";
+import SearchBar from "../navbar/SearchBar.astro";
+import NewIcon from "../icons/NewIcon.astro";
+import ThemeSelector from "../navbar/ThemeSelector.astro";
 ---
 
 <header>
@@ -10,6 +11,7 @@ import NewIcon from "./icons/NewIcon.astro";
     </div>
 
     <div class="space-between">
+        <ThemeSelector class="clickable icon" />
         <SearchBar class="clickable" />
         <NewIcon class="clickable icon" />
     </div>
@@ -42,6 +44,8 @@ import NewIcon from "./icons/NewIcon.astro";
     }
 
     .icon {
-        font-size: 1.5em;
+        width: 1.25rem;
+        height: 1.25rem;
+        margin: auto;
     }
 </style>

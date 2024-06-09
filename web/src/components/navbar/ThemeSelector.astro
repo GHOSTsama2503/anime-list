@@ -1,0 +1,53 @@
+---
+import ThemeIcon from "./ThemeIcon.astro";
+---
+
+<theme-selector>
+	<ThemeIcon />
+</theme-selector>
+
+<script>
+	import { setTheme, ThemeDark, ThemeLight } from "../../scripts/theme";
+
+	class ThemeSelector extends HTMLElement {
+		constructor() {
+			super();
+
+			const button: SVGElement | null = this.querySelector("svg");
+			if (button == null) {
+				throw new Error("theme button is missing");
+			}
+
+			button.addEventListener("click", this.changeTheme);
+		}
+
+		changeTheme = () => {
+			const theme = localStorage.getItem("theme");
+			if (theme == null) {
+				throw new Error("can not find theme in local storage");
+			}
+
+			setTheme(theme == ThemeDark ? ThemeLight : ThemeDark);
+		};
+	}
+
+	customElements.define("theme-selector", ThemeSelector);
+</script>
+
+<style>
+	theme-selector {
+		display: inline-flex;
+		margin-top: auto;
+		margin-bottom: auto;
+		cursor: pointer;
+	}
+
+	theme-selector:hover {
+		opacity: 80%;
+	}
+
+	theme-selector > * {
+		width: 1.25rem;
+		height: 1.25rem;
+	}
+</style>
