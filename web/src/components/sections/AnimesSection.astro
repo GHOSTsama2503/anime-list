@@ -36,8 +36,7 @@
 		}
 
 		getLimitSelect = (): HTMLSelectElement => {
-			const limitSelect: HTMLSelectElement | null =
-				document.querySelector("#limit");
+			const limitSelect: HTMLSelectElement | null = document.querySelector("#limit");
 
 			if (limitSelect == null) {
 				throw new Error("limit selector not found");
@@ -72,8 +71,7 @@
 		generateList = async () => {
 			const response = this.getAnimes();
 
-			const template: HTMLTemplateElement | null =
-				document.querySelector("#template");
+			const template: HTMLTemplateElement | null = document.querySelector("#template");
 
 			if (template == null) {
 				throw new Error("card template is missing");
@@ -110,18 +108,14 @@
 
 			const link = `/anime?id=${anime.id}`;
 
-			const imageLink: HTMLAnchorElement | null =
-				element.querySelector(".image-link");
+			const imageLink: HTMLAnchorElement | null = element.querySelector(".image-link");
 			if (imageLink == null) {
-				return newNotFoundError(
-					"img anchor not found in card template",
-				);
+				return newNotFoundError("img anchor not found in card template");
 			}
 
 			imageLink.href = link;
 
-			const titleLink: HTMLAnchorElement | null =
-				element.querySelector(".title-link");
+			const titleLink: HTMLAnchorElement | null = element.querySelector(".title-link");
 			if (titleLink == null) {
 				throw new Error("title anchor not found in card template");
 			}
@@ -140,7 +134,7 @@
 				return newNotFoundError("description");
 			}
 
-			description.textContent = anime.description;
+			description.innerHTML = anime.description;
 
 			this.appendChild(element);
 		};

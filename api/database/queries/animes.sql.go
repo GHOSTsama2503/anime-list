@@ -206,7 +206,7 @@ func (q *Queries) GetAnimes(ctx context.Context, arg GetAnimesParams) ([]Anime, 
 	return items, nil
 }
 
-const getAnimesByTitle = `-- name: GetAnimesByTitle :many
+const searchAnimesByTitle = `-- name: SearchAnimesByTitle :many
 SELECT id, id_al, title_romaji, title_native, title_english, format, status, description, start_date, end_date, season, season_year, episodes, duration, banner_image, st_image, group_position FROM animes
 WHERE title_romaji LIKE ?
 OR title_native LIKE ?
@@ -216,7 +216,7 @@ LIMIT ?
 OFFSET ?
 `
 
-type GetAnimesByTitleParams struct {
+type SearchAnimesByTitleParams struct {
 	TitleRomaji  string
 	TitleNative  sql.NullString
 	TitleEnglish sql.NullString
@@ -224,8 +224,8 @@ type GetAnimesByTitleParams struct {
 	Offset       int64
 }
 
-func (q *Queries) GetAnimesByTitle(ctx context.Context, arg GetAnimesByTitleParams) ([]Anime, error) {
-	rows, err := q.db.QueryContext(ctx, getAnimesByTitle,
+func (q *Queries) SearchAnimesByTitle(ctx context.Context, arg SearchAnimesByTitleParams) ([]Anime, error) {
+	rows, err := q.db.QueryContext(ctx, searchAnimesByTitle,
 		arg.TitleRomaji,
 		arg.TitleNative,
 		arg.TitleEnglish,
@@ -271,7 +271,7 @@ func (q *Queries) GetAnimesByTitle(ctx context.Context, arg GetAnimesByTitlePara
 	return items, nil
 }
 
-const getAnimesByTitleAndDescription = `-- name: GetAnimesByTitleAndDescription :many
+const searchAnimesByTitleAndDescription = `-- name: SearchAnimesByTitleAndDescription :many
 SELECT id, id_al, title_romaji, title_native, title_english, format, status, description, start_date, end_date, season, season_year, episodes, duration, banner_image, st_image, group_position FROM animes
 WHERE title_romaji LIKE ?
 OR title_native LIKE ?
@@ -282,7 +282,7 @@ LIMIT ?
 OFFSET ?
 `
 
-type GetAnimesByTitleAndDescriptionParams struct {
+type SearchAnimesByTitleAndDescriptionParams struct {
 	TitleRomaji  string
 	TitleNative  sql.NullString
 	TitleEnglish sql.NullString
@@ -291,8 +291,8 @@ type GetAnimesByTitleAndDescriptionParams struct {
 	Offset       int64
 }
 
-func (q *Queries) GetAnimesByTitleAndDescription(ctx context.Context, arg GetAnimesByTitleAndDescriptionParams) ([]Anime, error) {
-	rows, err := q.db.QueryContext(ctx, getAnimesByTitleAndDescription,
+func (q *Queries) SearchAnimesByTitleAndDescription(ctx context.Context, arg SearchAnimesByTitleAndDescriptionParams) ([]Anime, error) {
+	rows, err := q.db.QueryContext(ctx, searchAnimesByTitleAndDescription,
 		arg.TitleRomaji,
 		arg.TitleNative,
 		arg.TitleEnglish,

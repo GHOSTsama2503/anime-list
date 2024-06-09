@@ -51,6 +51,7 @@ func (anime *Anime) New(model queries.Anime, genres, studios []string, cover Cov
 	anime.Duration = int(model.Duration)
 	anime.Genres = genres
 	anime.Studios = studios
+	anime.CoverImage = cover
 	anime.BannerImage = model.BannerImage.String
 	anime.StImage = model.StImage
 }
@@ -74,4 +75,12 @@ type CoverImage struct {
 	Large      string `json:"large"`
 	Medium     string `json:"medium"`
 	Color      string `json:"color"`
+}
+
+func NewCoverImage(model *queries.CoverImage) (coverImage CoverImage) {
+	coverImage.ExtraLarge = model.ExtraLarge.String
+	coverImage.Large = model.Large.String
+	coverImage.Medium = model.Medium.String
+	coverImage.Color = model.Color.String
+	return
 }

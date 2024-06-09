@@ -63,3 +63,22 @@ func (q *Queries) DeleteCoverImageByAnimeId(ctx context.Context, animeID int64) 
 	_, err := q.db.ExecContext(ctx, deleteCoverImageByAnimeId, animeID)
 	return err
 }
+
+const getCoverImageByAnimeId = `-- name: GetCoverImageByAnimeId :one
+SELECT id, anime_id, extra_large, large, medium, color FROM cover_images
+WHERE anime_id = ?
+`
+
+func (q *Queries) GetCoverImageByAnimeId(ctx context.Context, animeID int64) (CoverImage, error) {
+	row := q.db.QueryRowContext(ctx, getCoverImageByAnimeId, animeID)
+	var i CoverImage
+	err := row.Scan(
+		&i.ID,
+		&i.AnimeID,
+		&i.ExtraLarge,
+		&i.Large,
+		&i.Medium,
+		&i.Color,
+	)
+	return i, err
+}

@@ -100,7 +100,7 @@ func GetAnimesService(ctx context.Context, params GetAnimesParams) ([]Anime, err
 
 		query := "%" + strings.TrimSpace(params.Query) + "%"
 
-		queryParams := queries.GetAnimesByTitleParams{
+		queryParams := queries.SearchAnimesByTitleParams{
 			TitleRomaji:  query,
 			TitleNative:  sql.NullString{String: query, Valid: true},
 			TitleEnglish: sql.NullString{String: query, Valid: true},
@@ -108,7 +108,7 @@ func GetAnimesService(ctx context.Context, params GetAnimesParams) ([]Anime, err
 			Offset:       params.Offset,
 		}
 
-		results, err = database.Query.GetAnimesByTitle(ctx, queryParams)
+		results, err = database.Query.SearchAnimesByTitle(ctx, queryParams)
 		if err != nil {
 			return animes, err
 		}
@@ -117,7 +117,7 @@ func GetAnimesService(ctx context.Context, params GetAnimesParams) ([]Anime, err
 
 		query := "%" + strings.TrimSpace(params.Query) + "%"
 
-		queryParams := queries.GetAnimesByTitleAndDescriptionParams{
+		queryParams := queries.SearchAnimesByTitleAndDescriptionParams{
 			TitleRomaji:  query,
 			TitleNative:  sql.NullString{String: query, Valid: true},
 			TitleEnglish: sql.NullString{String: query, Valid: true},
@@ -126,7 +126,7 @@ func GetAnimesService(ctx context.Context, params GetAnimesParams) ([]Anime, err
 			Offset:       params.Offset,
 		}
 
-		results, err = database.Query.GetAnimesByTitleAndDescription(ctx, queryParams)
+		results, err = database.Query.SearchAnimesByTitleAndDescription(ctx, queryParams)
 		if err != nil {
 			return animes, err
 		}
@@ -160,7 +160,12 @@ func GetAnimeInfoService(ctx context.Context, id int) (Anime, error) {
 		return anime, err
 	}
 
-	anime.New(result, genres, studios, CoverImage{})
+	coverImage, err := database.Query.GetCoverImageByAnimeId(ctx, result.ID)
+	if err != nil {
+		return anime, err
+	}
+
+	anime.New(result, genres, studios, NewCoverImage(&coverImage))
 
 	return anime, nil
 }

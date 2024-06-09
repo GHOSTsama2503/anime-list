@@ -1,112 +1,227 @@
 ---
-import Layout from "../layouts/Layout.astro";
+import AnimeLayout from "../layouts/AnimeLayout.astro";
 ---
 
-<Layout title="Anime" lang="en">
-    <div class="container">
-        <img class="banner-img" />
+<AnimeLayout title="Anime" lang="en">
+	<div class="container">
+		<div class="img-container">
+			<img class="cover-image" />
 
-        <div class="content">
-            <h2 class="title"></h2>
+			<div class="info-container">
+				<div id="episodes">
+					<span class="key">Episodes</span>:
+					<span class="val"></span>
+				</div>
 
-            <p class="description"></p>
+				<div id="season">
+					<span class="key">Season</span>:
+					<span class="val"></span>
+				</div>
 
-            <div class="genre-list"></div>
-            <div hidden class="genre clickable"></div>
-        </div>
-    </div>
-</Layout>
+				<div id="date">
+					<span class="key">Emision Date</span>:
+					<span class="val"></span>
+				</div>
+
+				<div id="genres">
+					<span class="key">Genres</span>:
+					<div class="val"></div>
+				</div>
+			</div>
+		</div>
+
+		<div class="content">
+			<img class="banner-img" />
+
+			<div class="text-content">
+				<h2 class="title"></h2>
+
+				<p class="description"></p>
+			</div>
+		</div>
+
+		<div hidden class="genre clickable"></div>
+	</div>
+</AnimeLayout>
 
 <script>
-    const params = new URLSearchParams(window.location.search);
+	const params = new URLSearchParams(window.location.search);
 
-    let id: number;
+	let id: number;
 
-    const idStr = params.get("id");
-    if (idStr === null) {
-        throw new Error("not found id in query params");
-    }
+	const idStr = params.get("id");
+	if (idStr === null) {
+		throw new Error("not found id in query params");
+	}
 
-    id = parseInt(idStr);
-    if (isNaN(id)) {
-        throw new Error("id is not a number");
-    }
+	id = parseInt(idStr);
+	if (isNaN(id)) {
+		throw new Error("id is not a number");
+	}
 
-    const res = await fetch(`/api/animes/${id}`);
-    if (!res.ok) {
-        throw new Error(`api response with status: ${res.status}`);
-    }
+	const res = await fetch(`/api/animes/${id}`);
+	if (!res.ok) {
+		throw new Error(`api response with status: ${res.status}`);
+	}
 
-    const data = await res.json();
+	const data = await res.json();
 
-    const bannerImg: HTMLImageElement | null =
-        document.querySelector(".banner-img");
-    if (bannerImg !== null) {
-        bannerImg.alt = data?.title?.romaji;
-        bannerImg.src = data?.banner_image;
-    }
+	const bannerImg: HTMLImageElement | null = document.querySelector(".banner-img");
+	if (bannerImg !== null) {
+		bannerImg.alt = data?.title?.romaji;
+		bannerImg.src = data?.banner_image;
+	}
 
-    const title = document.querySelector(".title");
-    if (title !== null) {
-        title.textContent = data?.title?.romaji;
-    }
+	const cover: HTMLImageElement | null = document.querySelector(".cover-image");
+	if (cover == null) {
+		throw new Error("cover image is missing");
+	}
 
-    const description = document.querySelector(".description");
-    if (description !== null) {
-        description.textContent = data?.description;
-    }
+	cover.src = data?.cover_image?.large;
 
-    const genreList = document.querySelector(".genre-list");
-    if (genreList === null) {
-        throw new Error("not found genre-list element");
-    }
+	const title = document.querySelector(".title");
+	if (title !== null) {
+		title.textContent = data?.title?.romaji;
+	}
 
-    const genre: HTMLDivElement | null = document.querySelector(".genre");
-    if (genre === null) {
-        throw new Error("genre 'template' not found");
-    }
+	const description = document.querySelector(".description");
+	if (description !== null) {
+		description.innerHTML = data?.description;
+	}
 
-    for (const name of data?.genres) {
-        const newElement = genre.cloneNode(true) as HTMLDivElement;
+	// episodes
+	const episodes: HTMLSpanElement | null = document.querySelector("#episodes .val");
+	if (episodes == null) {
+		throw new Error("episodes field is missing");
+	}
 
-        newElement.textContent = name;
-        newElement.removeAttribute("hidden");
+	episodes.textContent = data?.episodes;
 
-        genreList.appendChild(newElement);
-    }
+	// season
+	const season: HTMLSpanElement | null = document.querySelector("#season .val");
+	if (season == null) {
+		throw new Error("season field is missing");
+	}
+
+	season.textContent = `${data?.season} (${data?.season_year})`;
+
+	// date
+	const date: HTMLSpanElement | null = document.querySelector("#date .val");
+	if (date == null) {
+		throw new Error("date field is missing");
+	}
+
+	date.textContent = `${data?.start_date} - ${data?.end_date}`;
+
+	// genres
+	const genreList = document.querySelector("#genres .val");
+	if (genreList === null) {
+		throw new Error("not found genre-list element");
+	}
+
+	const genre: HTMLDivElement | null = document.querySelector(".genre");
+	if (genre === null) {
+		throw new Error("genre 'template' not found");
+	}
+
+	for (const name of data?.genres) {
+		const newElement = genre.cloneNode(true) as HTMLDivElement;
+
+		newElement.textContent = name;
+		newElement.removeAttribute("hidden");
+
+		genreList.appendChild(newElement);
+	}
 </script>
 
 <style>
-    :root {
-        background-color: var(--bg-primary);
-    }
+	.banner-img {
+		width: 100%;
+		height: 12rem;
+	}
 
-    .banner-img {
-        width: 100%;
-        height: 15rem;
-    }
+	.container {
+		background-color: var(--bg-primary);
+		border: 0.1rem solid var(--primary);
+		box-sizing: border-box;
+		height: 100vh;
+		display: flex;
+		flex-direction: column;
+		gap: 0.8rem;
+	}
 
-    .content {
-        padding: 0.5rem;
-        display: flex;
-        flex-direction: column;
-        gap: 0.5rem;
-    }
+	.img-container {
+		border: 0;
+		border-right: 0.1rem;
+		border-style: solid;
+		border-color: var(--primary);
+		background-color: var(--bg-secondary);
+	}
 
-    .title {
-        margin: 0;
-    }
+	.cover-image {
+		height: 20rem;
+		width: 100%;
+		object-fit: cover;
+		border-radius: var(--border-radius);
+	}
 
-    .genre-list {
-        display: flex;
-        flex-direction: row;
-        gap: 0.5rem;
-    }
+	.info-container {
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+		padding: 0.5rem;
+	}
 
-    .genre {
-        padding: 0.1em;
-        border: 1px solid var(--primary);
-        border-radius: var(--border-radius);
-        background-color: var(--primary);
-    }
+	.text-content {
+		padding: 1rem;
+	}
+
+	.title {
+		margin: 0;
+		padding-bottom: 1rem;
+	}
+
+	.description {
+		margin: 0;
+	}
+
+	.key {
+		font-weight: 500;
+	}
+
+	.val:not(:has(.genre)) {
+		font-size: small;
+		font-weight: 300;
+		padding: 0.1rem;
+		border-radius: var(--border-radius);
+	}
+
+	#genres .val {
+		display: inline-flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+		gap: 0.5rem;
+	}
+
+	.genre {
+		font-size: small;
+		padding: 0.15rem;
+		border: 1px solid var(--primary);
+		border-radius: var(--border-radius);
+		background-color: var(--bg-secondary);
+	}
+
+	@media (min-width: 640px) {
+		.container {
+			flex-direction: row;
+			gap: 0rem;
+		}
+
+		.img-container {
+		}
+
+		.cover-image {
+			width: fit-content;
+		}
+	}
 </style>

@@ -4,6 +4,11 @@ VALUES (?, ?, ?, ?, ?)
 RETURNING *;
 
 
+-- name: GetCoverImageByAnimeId :one
+SELECT * FROM cover_images
+WHERE anime_id = ?;
+
+
 -- name: DeleteCoverImage :exec
 DELETE FROM cover_images
 WHERE id = ?;

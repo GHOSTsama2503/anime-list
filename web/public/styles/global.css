@@ -30,6 +30,8 @@
 	/* constants */
 	--border-radius: 0.3rem;
 	--hover-opacity: 65%;
+
+	font-family: system-ui;
 }
 
 a {
