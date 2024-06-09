@@ -1,16 +1,14 @@
 package animes
 
-import "time"
+type Season string
 
 const (
-	SeasonFall   = "FALL"
-	SeasonSpring = "SPRING"
-	SeasonSummer = "SUMMER"
-	SeasonWinter = "WINTER"
-	SeasonUnknow = "UNKNOWN"
+	SeasonFall   Season = "FALL"
+	SeasonSpring Season = "SPRING"
+	SeasonSummer Season = "SUMMER"
+	SeasonWinter Season = "WINTER"
+	SeasonUnknow Season = "UNKNOWN"
 )
-
-type Season string
 
 type Anime struct {
 	Id          int        `json:"id"`
@@ -19,8 +17,8 @@ type Anime struct {
 	Format      string     `json:"format"`
 	Status      string     `json:"status"`
 	Description string     `json:"description"`
-	StartDate   time.Time  `json:"start_date"`
-	EndDate     time.Time  `json:"end_date"`
+	StartDate   string     `json:"start_date"`
+	EndDate     string     `json:"end_date"`
 	Season      string     `json:"season"`
 	SeasonYear  int        `json:"season_year"`
 	Episodes    int        `json:"episodes"`

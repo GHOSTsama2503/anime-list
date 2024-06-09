@@ -1,12 +1,9 @@
 version: "2"
 sql:
-    - engine: "postgresql"
+    - engine: "sqlite"
       queries: "internal/database/sql/**/*.sql"
       schema: "internal/database/sql/schema.sql"
       gen:
         go:
           package: queries
           out: internal/database/queries
-          sql_package: "database/sql"
-      database:
-        uri: postgres://postgres:postgres@localhost:5432

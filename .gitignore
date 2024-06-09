@@ -12,3 +12,6 @@ build/
 # Log files
 *.log
 *.log.gz
+
+# Database files
+*.db

@@ -6,41 +6,40 @@ package queries
 
 import (
 	"database/sql"
-	"time"
 )
 
 type Anime struct {
-	ID           int32
-	IDAl         int32
+	ID           int64
+	IDAl         int64
 	TitleRomaji  string
 	TitleNative  sql.NullString
 	TitleEnglish sql.NullString
 	Format       string
 	Status       string
 	Description  string
-	StartDate    time.Time
-	EndDate      time.Time
+	StartDate    string
+	EndDate      string
 	Season       string
-	SeasonYear   sql.NullInt16
-	Episodes     int16
-	Duration     int16
+	SeasonYear   sql.NullInt64
+	Episodes     int64
+	Duration     int64
 	BannerImage  sql.NullString
 	StImage      string
 }
 
 type AnimeGenre struct {
-	AnimeID int32
-	GenreID int32
+	AnimeID int64
+	GenreID int64
 }
 
 type AnimeStudio struct {
-	AnimeID  int32
-	StudioID int32
+	AnimeID  int64
+	StudioID int64
 }
 
 type CoverImage struct {
-	ID         int32
-	AnimeID    int32
+	ID         int64
+	AnimeID    int64
 	ExtraLarge sql.NullString
 	Large      sql.NullString
 	Medium     sql.NullString
@@ -48,17 +47,17 @@ type CoverImage struct {
 }
 
 type Genre struct {
-	ID   int32
+	ID   int64
 	Name string
 }
 
 type Studio struct {
-	ID   int32
+	ID   int64
 	Name string
 }
 
 type Synonym struct {
-	ID      int32
-	AnimeID int32
+	ID      int64
+	AnimeID int64
 	Name    string
 }

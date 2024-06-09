@@ -5,4 +5,4 @@ run:
 	go run cmd/main.go
 
 build:
-	go build -o ../build/api/anime-list cmd/main.go
+	go build -ldflags "-s -w" -o ../build/api/anime-list cmd/main.go

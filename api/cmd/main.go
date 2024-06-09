@@ -1,10 +1,12 @@
 package main
 
 import (
+	"anime-list/common"
 	"anime-list/internal"
 	"anime-list/internal/animes"
 	"anime-list/internal/database"
 	"anime-list/internal/env"
+	"anime-list/internal/healthcheck"
 	"fmt"
 	"net/http"
 
@@ -27,6 +29,8 @@ func main() {
 		log.Fatal("can not initialize database", "err", err)
 	}
 
+	defer database.Db.Close()
+
 	router := chi.NewRouter()
 	router.Use(internal.LoggerMidleware)
 	router.Use(middleware.RealIP)
@@ -36,11 +40,12 @@ func main() {
 		router.Get("/docs", internal.ApiDocsHandler)
 	}
 
-	config := huma.DefaultConfig("My Anime List", "1.0.0")
+	config := huma.DefaultConfig("My Anime List", common.Version())
 	config.DocsPath = ""
 
 	api := humachi.New(router, config)
 	animes.Use(api)
+	healthcheck.Use(api)
 
 	log.Info("server running! 🦊", "port", env.Port)
 	http.ListenAndServe(fmt.Sprintf(":%d", env.Port), router)

@@ -8,7 +8,7 @@ type CreateAnimeParams struct {
 	Description string
 	StartDate   FuzzyDate
 	EndDate     FuzzyDate
-	Season      string
+	Season      Season
 	SeasonYear  int
 	Episodes    int
 	Duration    int
