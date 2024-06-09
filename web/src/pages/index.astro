@@ -1,0 +1,94 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Navbar from "../components/Navbar.astro";
+import CardTemplate from "../components/CardTemplate.astro";
+import AnimeContainer from "../components/AnimeContainer.astro";
+import Loading from "../components/Loading.astro";
+import Paginator from "../components/Paginator.astro";
+---
+
+<Layout lang="en" title="Anime List">
+	<Navbar />
+	<Paginator />
+	<AnimeContainer />
+	<Loading />
+	<CardTemplate />
+
+	<script>
+		async function getAnimes() {
+			const queryParams = new URLSearchParams(window.location.search);
+
+			let limit = queryParams.get("limit");
+			let offset = queryParams.get("offset");
+
+			const url = `/api/animes?limit=${limit}&offset=${offset}`;
+			let res = await fetch(url);
+
+			while (!res.ok) {
+				await getAnimes();
+			}
+
+			return res;
+		}
+
+		let response = getAnimes();
+
+		function notFound(message: string) {
+			console.error(`Unexpected template content, not found ${message}`);
+		}
+
+		const loading = document.querySelector(
+			"#loading",
+		) as HTMLHeadingElement;
+
+		const container = document.querySelector(
+			"#container",
+		) as HTMLDivElement;
+
+		const template = document.querySelector(
+			"#template",
+		) as HTMLTemplateElement;
+
+		class Anime {
+			id: number;
+			title: { romaji: string; native: string; english: string };
+			description: string;
+			image: string;
+		}
+
+		let data = await response;
+		let animes: Anime[] = (await data.json())?.animes;
+
+		loading.remove();
+
+		const animesLenght = animes.length;
+		for (let i = 0; i < animesLenght; i++) {
+			const element = template.content.cloneNode(true) as HTMLDivElement;
+			const anime = animes[i];
+
+			const img = element.querySelector("img");
+			if (img != null) {
+				img.src = "/20.webp";
+				img.alt = "Banner of " + anime.title;
+			} else {
+				notFound("img");
+			}
+
+			const title = element.querySelector("h4");
+			if (title != null) {
+				title.textContent = anime.title.romaji;
+			} else {
+				notFound("h4");
+			}
+
+			const description = element.querySelector("p");
+			if (description != null) {
+				description.textContent = anime.description;
+			} else {
+				notFound("p");
+			}
+
+			container.appendChild(element);
+		}
+	</script>
+</Layout>
