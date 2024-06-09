@@ -18,7 +18,14 @@
         const queryParams = new URLSearchParams(window.location.search);
 
         let limit = parseInt(queryParams.get("limit"));
+        if (isNaN(limit)) {
+            limit = 10;
+        }
+
         let offset = parseInt(queryParams.get("offset"));
+        if (isNaN(offset)) {
+            offset = 0;
+        }
 
         return { limit, offset };
     }
