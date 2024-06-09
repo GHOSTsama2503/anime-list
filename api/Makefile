@@ -1,5 +1,5 @@
 install:
-	go mod tidy
+	go mod download && go mod verify
 
 run:
 	go run cmd/main.go

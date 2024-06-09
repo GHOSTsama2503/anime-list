@@ -39,9 +39,16 @@ type GetAnimesRequest struct {
 
 type GetAnimesResponse struct {
 	Body struct {
-		Total  int     `json:"total"`
-		Animes []Anime `json:"animes"`
+		Total  int         `json:"total"`
+		Animes []AnimeTiny `json:"animes"`
 	}
+}
+
+type AnimeTiny struct {
+	Id          int    `json:"id"`
+	Title       string `json:"title"`
+	Description string `json:"description"`
+	ImageId     int    `json:"image"`
 }
 
 type GetAnimeInfoRequest struct {

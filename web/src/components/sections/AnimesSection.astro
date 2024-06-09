@@ -1,12 +1,156 @@
-<div id="container" class="container">
-    <slot />
-</div>
+<animes-container></animes-container>
+
+<script>
+	type AnimeResponse = {
+		total: number;
+		animes: Anime[];
+	};
+
+	type Anime = {
+		id: number;
+		title: string;
+		description: string;
+		image: number;
+	};
+
+	const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+
+	function newNotFoundError(element: string): Error {
+		return new Error(`not found ${element} in card template`);
+	}
+
+	class AnimesContainer extends HTMLElement {
+		limit: string;
+		offset: string;
+
+		constructor() {
+			super();
+
+			this.limit = this.getLimit();
+			this.offset = this.getOffset();
+
+			this.generateList();
+		}
+
+		getLimit = (): string => {
+			const limit: HTMLSelectElement | null = document.querySelector(
+				"limit-selector select",
+			);
+
+			if (limit == null) {
+				throw new Error("limit selector not found");
+			}
+
+			return limit.value;
+		};
+
+		getOffset = (): string => {
+			const params = new URLSearchParams(window.location.search);
+			const offset = params.get("offset");
+
+			return offset != null ? offset : "0";
+		};
+
+		getAnimes = async (): Promise<Response> => {
+			const url = `/api/animes?limit=${this.limit}&offset=${this.offset}`;
+			return fetch(url);
+		};
+
+		generateList = async () => {
+			const response = this.getAnimes();
+
+			const template: HTMLTemplateElement | null =
+				document.querySelector("#template");
+
+			if (template == null) {
+				throw new Error("card template is missing");
+			}
+
+			let responseData = await response;
+
+			console.log(!responseData.ok);
+
+			while (!responseData.ok) {
+				console.log("while");
+				await sleep(300);
+				responseData = await this.getAnimes();
+			}
+
+			const content: AnimeResponse = await responseData.json();
+
+			const animes: Anime[] = content.animes;
+
+			this.removeLoading();
+
+			for (const anime of animes) {
+				this.addCardContent(template, anime);
+			}
+		};
+
+		addCardContent = (template: HTMLTemplateElement, anime: Anime) => {
+			const element = template.content.cloneNode(true) as HTMLDivElement;
+
+			const img = element.querySelector("img");
+			if (img == null) {
+				return newNotFoundError("img");
+			}
+
+			img.src = `/img/${anime.image}`;
+			img.alt = `${anime.title} Banner`;
+
+			const link = `/anime?id=${anime.id}`;
+
+			const imageLink: HTMLAnchorElement | null =
+				element.querySelector(".image-link");
+			if (imageLink == null) {
+				return newNotFoundError(
+					"img anchor not found in card template",
+				);
+			}
+
+			imageLink.href = link;
+
+			const titleLink: HTMLAnchorElement | null =
+				element.querySelector(".title-link");
+			if (titleLink == null) {
+				throw new Error("title anchor not found in card template");
+			}
+
+			titleLink.href = link;
+
+			const title = element.querySelector("h4");
+			if (title == null) {
+				throw new Error("title not found in card template");
+			}
+
+			title.textContent = anime.title;
+
+			const description = element.querySelector("p");
+			if (description == null) {
+				return newNotFoundError("description");
+			}
+
+			description.textContent = anime.description;
+
+			this.appendChild(element);
+		};
+
+		removeLoading = () => {
+			const loading = document.querySelector("#loading");
+			if (loading != null) {
+				loading.remove();
+			}
+		};
+	}
+
+	customElements.define("animes-container", AnimesContainer);
+</script>
 
 <style>
-    .container {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
-        grid-template-rows: auto;
-        gap: 1rem;
-    }
+	animes-container {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+		grid-template-rows: auto;
+		gap: 1rem;
+	}
 </style>

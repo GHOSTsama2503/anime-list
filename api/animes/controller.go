@@ -107,7 +107,13 @@ func GetAnimesController(context context.Context, input *GetAnimesRequest) (*Get
 		return response, err
 	}
 
-	response.Body.Animes = animes
+	var result []AnimeTiny
+
+	for _, anime := range animes {
+		result = append(result, NewAnimeTiny(&anime))
+	}
+
+	response.Body.Animes = result
 
 	return response, nil
 }

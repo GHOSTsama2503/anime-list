@@ -44,6 +44,23 @@ LIMIT ?
 OFFSET ?;
 
 
+-- name: GetAnimesTest :many
+SELECT (
+    SELECT COUNT(*) FROM animes
+    WHERE title_romaji LIKE ?
+    OR title_native LIKE ?
+    OR title_english LIKE ?
+    OR description LIKE ?
+),
+* FROM animes
+WHERE title_romaji LIKE ?
+OR title_native LIKE ?
+OR title_english LIKE ?
+OR description LIKE ?
+ORDER BY title_romaji COLLATE NOCASE ASC
+LIMIT ?
+OFFSET ?;
+
 -- name: GetAnimesByTitle :many
 SELECT * FROM animes
 WHERE title_romaji LIKE ?

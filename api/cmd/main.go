@@ -36,6 +36,7 @@ func main() {
 	router := chi.NewRouter()
 	router.Use(logging.LoggerMidleware)
 	router.Use(middleware.RealIP)
+	router.Use(middleware.Compress(5))
 	router.Use(middleware.Recoverer)
 
 	if !config.Env.IsProduction {

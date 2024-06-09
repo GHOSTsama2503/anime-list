@@ -3,6 +3,11 @@ import LimitSelector from "../paginator/LimitSelector.astro";
 ---
 
 <div class="paginator">
+    <label>
+        Search in Descriptions
+        <input type="checkbox" />
+    </label>
+
     <button class="btn" onclick="prev()">Prev</button>
     <button class="btn" onclick="next()">Next</button>
 
@@ -11,9 +16,26 @@ import LimitSelector from "../paginator/LimitSelector.astro";
 
 <style>
     .paginator {
-        height: 2rem;
         display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 1rem;
+    }
+
+    .paginator > * {
+        width: 100%;
+        display: inline-flex;
         justify-content: center;
-        gap: 3rem;
+    }
+
+    .paginator > label {
+        margin: auto;
+    }
+
+    .paginator > button {
+        max-width: 10rem;
+        display: inline-flex;
+        align-items: center;
     }
 </style>

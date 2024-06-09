@@ -77,3 +77,11 @@ func IsValidFormat(format string) bool {
 	// TODO: missing validator
 	return true
 }
+
+func NewAnimeTiny(anime *Anime) (result AnimeTiny) {
+	result.Id = anime.Id
+	result.Title = anime.Title.Romaji
+	result.Description = anime.Description
+	result.ImageId = anime.IdAl
+	return
+}

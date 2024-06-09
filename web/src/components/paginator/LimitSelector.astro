@@ -1,9 +1,12 @@
-<limit-selector>
-	<select class="select">
-		<option class="input" value="20" selected>20</option>
-		<option class="input" value="35">35</option>
-		<option class="input" value="50">50</option>
-	</select>
+<limit-selector {...Astro.props}>
+	<label>
+		Show per page
+		<select class="select">
+			<option class="input" value="20" selected>20</option>
+			<option class="input" value="35">35</option>
+			<option class="input" value="50">50</option>
+		</select>
+	</label>
 </limit-selector>
 
 <script>
@@ -31,6 +34,9 @@
 		}
 
 		changeLimit = () => {
+			const newLimit = new Event("new-limit");
+			this.dispatchEvent(newLimit);
+
 			const params = new URLSearchParams(window.location.search);
 			params.set("limit", this.select.value);
 

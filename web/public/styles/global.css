@@ -27,10 +27,6 @@
 	background-color: var(--bg-secondary);
 	color: var(--text-secondary);
 
-	/* center content on large displays */
-	max-width: 1366px;
-	margin: 0 auto;
-
 	/* constants */
 	--border-radius: 0.3rem;
 	--hover-opacity: 80%;
