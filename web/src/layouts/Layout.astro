@@ -23,12 +23,6 @@ export interface Props {
 	<body>
 		<slot />
 	</body>
-
-	<script async>
-		function imageLoaded(event) {
-			event?.parentNode?.classList.add("loaded");
-		}
-	</script>
 </html>
 
 <style>

@@ -20,11 +20,14 @@
 	}
 
 	class AnimesContainer extends HTMLElement {
+		limitSelect: HTMLSelectElement;
 		limit: string;
 		offset: string;
 
 		constructor() {
 			super();
+
+			this.limitSelect = this.getLimitSelect();
 
 			this.limit = this.getLimit();
 			this.offset = this.getOffset();
@@ -32,16 +35,26 @@
 			this.generateList();
 		}
 
-		getLimit = (): string => {
-			const limit: HTMLSelectElement | null = document.querySelector(
-				"limit-selector select",
-			);
+		getLimitSelect = (): HTMLSelectElement => {
+			const limitSelect: HTMLSelectElement | null =
+				document.querySelector("limit-selector select");
 
-			if (limit == null) {
+			if (limitSelect == null) {
 				throw new Error("limit selector not found");
 			}
 
-			return limit.value;
+			return limitSelect;
+		};
+
+		getLimit = (): string => {
+			const params = new URLSearchParams(window.location.search);
+			const limit = params.get("limit");
+
+			// This is a "hack" because in prod this.limitSelect.value
+			// is not the current value of "limit-selector select"
+			//
+			// It is not a problem because the API has a maximum limit set.
+			return limit ? limit : this.limitSelect.value;
 		};
 
 		getOffset = (): string => {
@@ -68,10 +81,7 @@
 
 			let responseData = await response;
 
-			console.log(!responseData.ok);
-
 			while (!responseData.ok) {
-				console.log("while");
 				await sleep(300);
 				responseData = await this.getAnimes();
 			}

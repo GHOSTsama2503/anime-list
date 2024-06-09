@@ -34,9 +34,6 @@
 		}
 
 		changeLimit = () => {
-			const newLimit = new Event("new-limit");
-			this.dispatchEvent(newLimit);
-
 			const params = new URLSearchParams(window.location.search);
 			params.set("limit", this.select.value);
 

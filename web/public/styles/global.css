@@ -29,7 +29,11 @@
 
 	/* constants */
 	--border-radius: 0.3rem;
-	--hover-opacity: 80%;
+	--hover-opacity: 65%;
+}
+
+a {
+	color: var(--primary) !important;
 }
 
 .btn,
@@ -49,5 +53,6 @@
 }
 
 .clickable:hover {
-	opacity: 80%;
+	opacity: var(--hover-opacity);
+	transform: rotateZ('');
 }
