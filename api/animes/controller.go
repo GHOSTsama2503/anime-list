@@ -2,6 +2,7 @@ package animes
 
 import (
 	"anime-list/anilist"
+	"anime-list/common/config"
 	"context"
 	"fmt"
 	"net/http"
@@ -82,11 +83,17 @@ func GetAnimesController(context context.Context, input *GetAnimesRequest) (*Get
 
 	limit := int64(input.Limit)
 	if limit <= 0 {
-		limit = 10
+		limit = config.Env.DefaultLimit
+	}
+
+	if limit > config.Env.MaxLimit {
+		log.Warnf("request limit (%d) is greater than the max allowed, using fallback: '%d'", limit, config.Env.DefaultLimit)
+		limit = config.Env.DefaultLimit
 	}
 
 	offset := int64(input.Offset)
 	if offset < 0 {
+		log.Warnf("request offset is less than zero, using fallback '0'")
 		offset = 0
 	}
 

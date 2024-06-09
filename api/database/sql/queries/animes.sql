@@ -47,3 +47,8 @@ OFFSET ?;
 -- name: GetAnime :one
 SELECT * FROM animes
 WHERE id = ?;
+
+
+-- name: GetAnimeByAnilistId :one
+SELECT id FROM animes
+WHERE id_al = ?;

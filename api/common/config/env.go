@@ -10,6 +10,10 @@ type Environment struct {
 	Port      int    `env:"PORT" envDefault:"8000"`
 	JWTSecret string `env:"JWT_SECRET"`
 
+	// api
+	MaxLimit     int64 `env:"MAX_LIMIT"`
+	DefaultLimit int64 `env:"DEFAULT_LIMIT"`
+
 	// database
 	DatabaseUrl string `env:"DATABASE_URL"`
 
