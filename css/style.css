@@ -48,10 +48,17 @@ table a:visited {
 
 footer {
   background-color: rgb(62, 75, 80);
-  text-align: center;
+  width: 100%;
+  overflow: hidden;
   font-weight: bold;
   color: white;
   font-size: 120%;
   margin-top: 1%;
   padding: 1%;
+  display: flex;
+  flex-direction: row;
+}
+
+.fItem {
+  margin-left: 3%;
 }
