@@ -19,13 +19,20 @@ import Paginator from "../components/Paginator.astro";
 			const queryParams = new URLSearchParams(window.location.search);
 
 			let limit = queryParams.get("limit");
+			if (limit == null) {
+				limit = 10;
+			}
+
 			let offset = queryParams.get("offset");
+			if (offset == null) {
+				offset = 0;
+			}
 
 			const url = `/api/animes?limit=${limit}&offset=${offset}`;
 			let res = await fetch(url);
 
 			while (!res.ok) {
-				await getAnimes();
+				res = await getAnimes();
 			}
 
 			return res;
