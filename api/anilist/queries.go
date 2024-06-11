@@ -10,11 +10,12 @@ query ($id: Int, $page: Int, $perPage: Int, $search: String) {
       hasNextPage
       perPage
     }
-    media (id: $id, search: $search) {
+    media (id: $id, search: $search, type: ANIME) {
       id
       title {
         romaji
       }
+      description
       coverImage {
         extraLarge
         large

@@ -3,6 +3,7 @@ package animes
 import (
 	"anime-list/anilist"
 	"anime-list/common/config"
+	"anime-list/httperr"
 	"context"
 	"fmt"
 	"net/http"
@@ -17,7 +18,7 @@ func RemoteSearchController(context context.Context, input *RemoteSearchRequest)
 
 	results, err := anilist.SearchAnime(input.Body.Title, 0, 20)
 	if err != nil {
-		return response, err
+		return response, httperr.New(http.StatusBadGateway, "", err)
 	}
 
 	responseResults := []RemoteSearchResult{}
@@ -26,6 +27,7 @@ func RemoteSearchController(context context.Context, input *RemoteSearchRequest)
 		element.Id = value.Id
 		element.Image = value.Image.Medium
 		element.Title = value.Title
+		element.Description = value.Description
 		responseResults = append(responseResults, element)
 	}
 

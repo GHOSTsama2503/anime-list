@@ -11,9 +11,10 @@ type RemoteSearchResponse struct {
 }
 
 type RemoteSearchResult struct {
-	Id    uint   `json:"id"`
-	Title string `json:"title"`
-	Image string `json:"image"`
+	Id          uint   `json:"id"`
+	Title       string `json:"title"`
+	Image       string `json:"image"`
+	Description string `json:"description"`
 }
 
 type CreateAnimeRequest struct {

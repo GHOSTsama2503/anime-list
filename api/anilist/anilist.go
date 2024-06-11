@@ -62,6 +62,7 @@ func SearchAnime(title string, page uint, perPage uint) ([]SearchResult, error) 
 		element.Id = mediaElement.Id
 		element.Title = mediaElement.Title.Romaji
 		element.Image = mediaElement.CoverImage
+		element.Description = mediaElement.Description
 
 		result = append(result, element)
 	}

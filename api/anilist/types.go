@@ -1,9 +1,10 @@
 package anilist
 
 type SearchResult struct {
-	Id    uint   `json:"id"`
-	Title string `json:"title"`
-	Image struct {
+	Id          uint   `json:"id"`
+	Title       string `json:"title"`
+	Description string `json:"description"`
+	Image       struct {
 		ExtralLarge string `json:"extraLarge"`
 		Large       string `json:"large"`
 		Medium      string `json:"medium"`
@@ -37,7 +38,8 @@ type SearchResponse struct {
 				Title struct {
 					Romaji string `json:"romaji"`
 				} `json:"title"`
-				CoverImage struct {
+				Description string `json:"description"`
+				CoverImage  struct {
 					ExtralLarge string `json:"extraLarge"`
 					Large       string `json:"large"`
 					Medium      string `json:"medium"`
