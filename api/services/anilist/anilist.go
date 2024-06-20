@@ -70,8 +70,8 @@ func SearchAnime(title string, page uint, perPage uint) ([]SearchResult, error) 
 	return result, nil
 }
 
-func GetAnime(id uint) (Anime, error) {
-	anime := Anime{}
+func GetAnime(id uint) (*Anime, error) {
+	anime := &Anime{}
 
 	data := GetAnimeRequest{}
 	data.Query = QueryInfo
@@ -102,5 +102,7 @@ func GetAnime(id uint) (Anime, error) {
 		return anime, errors.New("anime not found")
 	}
 
-	return resData.Data.Media, nil
+	anime = &resData.Data.Media
+
+	return anime, nil
 }
