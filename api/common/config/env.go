@@ -1,14 +1,19 @@
 package config
 
 import (
+	"os"
+	"path"
+	"runtime"
+
 	"github.com/caarlos0/env/v11"
 	"github.com/joho/godotenv"
 )
 
 type Environment struct {
 	// app
-	Port      int    `env:"PORT" envDefault:"8000"`
-	JWTSecret string `env:"JWT_SECRET"`
+	Port       int    `env:"PORT" envDefault:"8000"`
+	JWTSecret  string `env:"JWT_SECRET"`
+	ImagesPath string `env:"IMAGES_PATH" envDefault:"assets/images"`
 
 	// api
 	MaxLimit     int64 `env:"MAX_LIMIT"`
@@ -31,8 +36,13 @@ type Environment struct {
 
 var Env *Environment
 
-func LoadEnv(filenames ...string) error {
-	godotenv.Load(filenames...)
+func LoadEnv() error {
+
+	if err := chRoot(); err != nil {
+		return err
+	}
+
+	godotenv.Load()
 
 	environment := &Environment{}
 
@@ -43,4 +53,11 @@ func LoadEnv(filenames ...string) error {
 	Env = environment
 
 	return nil
+}
+
+func chRoot() error {
+	_, filename, _, _ := runtime.Caller(0)
+
+	dir := path.Join(path.Dir(filename), "../..")
+	return os.Chdir(dir)
 }

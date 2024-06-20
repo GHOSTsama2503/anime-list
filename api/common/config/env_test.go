@@ -6,7 +6,7 @@ import (
 )
 
 func TestLoad(t *testing.T) {
-	if err := config.LoadEnv("../../.env"); err != nil {
+	if err := config.LoadEnv(); err != nil {
 		t.Fatal(err)
 	}
 
