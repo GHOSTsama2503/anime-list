@@ -12,16 +12,25 @@ WHERE id = ?;
 
 func (r *CoversRepository) Get(ctx context.Context, id int64) (models.CoverImage, error) {
 
-	row := r.db.QueryRowContext(ctx, get, id)
-
 	var coverImage models.CoverImage
 
-	err := row.Scan(
-		&coverImage.Id,
-		&coverImage.ExtraLarge,
-		&coverImage.Large,
-		&coverImage.Medium,
-	)
+	rows, err := r.db.QueryContext(ctx, get, id)
+	if err != nil {
+		return coverImage, err
+	}
+
+	for rows.Next() {
+		err := rows.Scan(
+			&coverImage.Id,
+			&coverImage.ExtraLarge,
+			&coverImage.Large,
+			&coverImage.Medium,
+		)
+
+		if err != nil {
+			return coverImage, err
+		}
+	}
 
 	return coverImage, err
 }

@@ -28,28 +28,37 @@ WHERE id = ?;
 `
 
 func (q *AnimesRepository) Get(ctx context.Context, id int64) (models.Anime, error) {
-	row := q.db.QueryRowContext(ctx, get, id)
 
 	var anime models.Anime
 
-	err := row.Scan(
-		&anime.Id,
-		&anime.IdAl,
-		&anime.TitleRomaji,
-		&anime.TitleNative,
-		&anime.TitleEnglish,
-		&anime.Format,
-		&anime.Status,
-		&anime.Description,
-		&anime.StartDate,
-		&anime.EndDate,
-		&anime.Season,
-		&anime.SeasonYear,
-		&anime.Episodes,
-		&anime.Duration,
-		&anime.BannerImage,
-		&anime.StImage,
-	)
+	rows, err := q.db.QueryContext(ctx, get, id)
+	if err != nil {
+		return anime, err
+	}
+
+	for rows.Next() {
+		err := rows.Scan(
+			&anime.Id,
+			&anime.IdAl,
+			&anime.TitleRomaji,
+			&anime.TitleNative,
+			&anime.TitleEnglish,
+			&anime.Format,
+			&anime.Status,
+			&anime.Description,
+			&anime.StartDate,
+			&anime.EndDate,
+			&anime.Season,
+			&anime.SeasonYear,
+			&anime.Episodes,
+			&anime.Duration,
+			&anime.BannerImage,
+			&anime.StImage,
+		)
+		if err != nil {
+			return anime, err
+		}
+	}
 
 	return anime, err
 }

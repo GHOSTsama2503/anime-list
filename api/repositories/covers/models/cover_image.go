@@ -7,3 +7,10 @@ type CoverImage struct {
 	Medium     string
 	Color      string
 }
+
+type CoverData struct {
+	ExtraLarge string
+	Large      string
+	Medium     string
+	Color      string
+}

@@ -9,6 +9,7 @@ import (
 type GenresRepositoryInterface interface {
 	Create(ctx context.Context, name string) (models.Genre, error)
 	Get(ctx context.Context, id int64) (models.Genre, error)
+	GetNames(ctx context.Context, animeId int64) ([]string, error)
 	Search(ctx context.Context, name string) (models.Genre, error)
 	Update(ctx context.Context, params UpdateParams) (models.Genre, error)
 	Delete(ctx context.Context, id int64) error
