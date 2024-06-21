@@ -1,11 +1,11 @@
 package animes
 
 import (
-	r "anime-list/repositories/animes"
-	"anime-list/repositories/animes/models"
-	coversModels "anime-list/repositories/covers/models"
-	"anime-list/services"
-	"anime-list/services/animes/types"
+	r "github.com/ghostsama2503/anime-list/api/repositories/animes"
+	"github.com/ghostsama2503/anime-list/api/repositories/animes/models"
+	coversModels "github.com/ghostsama2503/anime-list/api/repositories/covers/models"
+	"github.com/ghostsama2503/anime-list/api/services"
+	"github.com/ghostsama2503/anime-list/api/services/animes/types"
 	"fmt"
 )
 

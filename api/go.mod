@@ -1,4 +1,4 @@
-module anime-list
+module github.com/ghostsama2503/anime-list/api
 
 go 1.22.1
 
@@ -13,6 +13,7 @@ require (
 	github.com/google/uuid v1.6.0
 	github.com/joho/godotenv v1.5.1
 	github.com/tursodatabase/go-libsql v0.0.0-20240429120401-651096bbee0b
+	golang.org/x/crypto v0.21.0
 	gopkg.in/natefinch/lumberjack.v2 v2.2.1
 )
 

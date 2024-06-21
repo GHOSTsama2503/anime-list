@@ -1,6 +1,6 @@
 package types
 
-import "anime-list/repositories/covers/models"
+import "github.com/ghostsama2503/anime-list/api/repositories/covers/models"
 
 type Anime struct {
 	Id          int64            `json:"id"`

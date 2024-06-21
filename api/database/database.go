@@ -1,7 +1,7 @@
 package database
 
 import (
-	"anime-list/common/config"
+	"github.com/ghostsama2503/anime-list/api/common/config"
 	"database/sql"
 
 	_ "github.com/tursodatabase/go-libsql"

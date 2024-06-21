@@ -1,8 +1,8 @@
 package studios_test
 
 import (
-	"anime-list/database"
-	"anime-list/repositories/studios"
+	"github.com/ghostsama2503/anime-list/api/database"
+	"github.com/ghostsama2503/anime-list/api/repositories/studios"
 	"context"
 	"database/sql"
 	"testing"

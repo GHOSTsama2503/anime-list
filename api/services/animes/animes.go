@@ -1,10 +1,10 @@
 package animes
 
 import (
-	repo "anime-list/repositories/animes"
-	"anime-list/repositories/covers"
-	"anime-list/repositories/genres"
-	"anime-list/repositories/studios"
+	repo "github.com/ghostsama2503/anime-list/api/repositories/animes"
+	"github.com/ghostsama2503/anime-list/api/repositories/covers"
+	"github.com/ghostsama2503/anime-list/api/repositories/genres"
+	"github.com/ghostsama2503/anime-list/api/repositories/studios"
 )
 
 type AnimesService struct {

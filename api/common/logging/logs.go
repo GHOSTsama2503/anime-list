@@ -1,7 +1,7 @@
 package logging
 
 import (
-	"anime-list/common/config"
+	"github.com/ghostsama2503/anime-list/api/common/config"
 	"fmt"
 	"net/http"
 	"os"

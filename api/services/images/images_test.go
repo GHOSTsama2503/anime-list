@@ -1,8 +1,8 @@
 package images_test
 
 import (
-	"anime-list/common/config"
-	"anime-list/services/images"
+	"github.com/ghostsama2503/anime-list/api/common/config"
+	"github.com/ghostsama2503/anime-list/api/services/images"
 	"testing"
 )
 

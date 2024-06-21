@@ -1,7 +1,7 @@
 package users
 
 import (
-	"anime-list/repositories/users/models"
+	"github.com/ghostsama2503/anime-list/api/repositories/users/models"
 	"context"
 )
 

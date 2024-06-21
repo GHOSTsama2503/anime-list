@@ -1,7 +1,7 @@
 package studios
 
 import (
-	"anime-list/repositories/studios/models"
+	"github.com/ghostsama2503/anime-list/api/repositories/studios/models"
 	"context"
 )
 

@@ -1,10 +1,10 @@
 package animes
 
 import (
-	"anime-list/common/config"
-	"anime-list/httperr"
-	"anime-list/repositories/animes"
-	"anime-list/repositories/animes/models"
+	"github.com/ghostsama2503/anime-list/api/common/config"
+	"github.com/ghostsama2503/anime-list/api/httperr"
+	"github.com/ghostsama2503/anime-list/api/repositories/animes"
+	"github.com/ghostsama2503/anime-list/api/repositories/animes/models"
 	"context"
 	"net/http"
 )

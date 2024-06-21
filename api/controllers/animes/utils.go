@@ -1,9 +1,9 @@
 package animes
 
 import (
-	"anime-list/services/anilist"
-	"anime-list/services/animes"
-	"anime-list/services/animes/types"
+	"github.com/ghostsama2503/anime-list/api/services/anilist"
+	"github.com/ghostsama2503/anime-list/api/services/animes"
+	"github.com/ghostsama2503/anime-list/api/services/animes/types"
 )
 
 func TranslateToParams(anime anilist.Anime) animes.CreateAnimeParams {

@@ -1,12 +1,12 @@
 package animes
 
 import (
-	"anime-list/database"
-	repository "anime-list/repositories/animes"
-	"anime-list/repositories/covers"
-	"anime-list/repositories/genres"
-	"anime-list/repositories/studios"
-	service "anime-list/services/animes"
+	"github.com/ghostsama2503/anime-list/api/database"
+	repository "github.com/ghostsama2503/anime-list/api/repositories/animes"
+	"github.com/ghostsama2503/anime-list/api/repositories/covers"
+	"github.com/ghostsama2503/anime-list/api/repositories/genres"
+	"github.com/ghostsama2503/anime-list/api/repositories/studios"
+	service "github.com/ghostsama2503/anime-list/api/services/animes"
 	"net/http"
 
 	"github.com/danielgtaylor/huma/v2"

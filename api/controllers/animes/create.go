@@ -1,9 +1,9 @@
 package animes
 
 import (
-	"anime-list/httperr"
-	"anime-list/services/anilist"
-	"anime-list/services/animes/types"
+	"github.com/ghostsama2503/anime-list/api/httperr"
+	"github.com/ghostsama2503/anime-list/api/services/anilist"
+	"github.com/ghostsama2503/anime-list/api/services/animes/types"
 	"context"
 	"net/http"
 

@@ -1,16 +1,16 @@
 package main
 
 import (
-	"anime-list/animes"
-	"anime-list/auth"
-	"anime-list/common"
-	"anime-list/common/config"
-	"anime-list/common/logging"
-	"anime-list/database"
-	"anime-list/docs"
-	"anime-list/healthcheck"
 	"fmt"
 	"net/http"
+
+	"github.com/ghostsama2503/anime-list/api/common"
+	"github.com/ghostsama2503/anime-list/api/common/config"
+	"github.com/ghostsama2503/anime-list/api/common/logging"
+	"github.com/ghostsama2503/anime-list/api/controllers"
+	"github.com/ghostsama2503/anime-list/api/database"
+	"github.com/ghostsama2503/anime-list/api/docs"
+	"github.com/ghostsama2503/anime-list/api/middlewares"
 
 	"github.com/charmbracelet/log"
 	"github.com/danielgtaylor/huma/v2"
@@ -48,13 +48,8 @@ func main() {
 
 	api := humachi.New(router, apiConfig)
 
-	// middlewares
-	api.UseMiddleware(auth.NewAuthMiddleware(api))
-
-	// routes
-	auth.Use(api)
-	animes.Use(api)
-	healthcheck.Use(api)
+	middlewares.Init(api, router)
+	controllers.Init(api, router)
 
 	log.Info("server running! 🦊", "port", config.Env.Port)
 	http.ListenAndServe(fmt.Sprintf(":%d", config.Env.Port), router)
