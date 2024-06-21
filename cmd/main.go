@@ -9,7 +9,6 @@ import (
 	"github.com/ghostsama2503/anime-list/api/common/logging"
 	"github.com/ghostsama2503/anime-list/api/controllers"
 	"github.com/ghostsama2503/anime-list/api/database"
-	"github.com/ghostsama2503/anime-list/api/docs"
 	"github.com/ghostsama2503/anime-list/api/middlewares"
 
 	"github.com/charmbracelet/log"
@@ -38,10 +37,6 @@ func main() {
 	router.Use(middleware.RealIP)
 	router.Use(middleware.Compress(5))
 	router.Use(middleware.Recoverer)
-
-	if !config.Env.IsProduction {
-		router.Get("/docs", docs.ApiDocsHandler)
-	}
 
 	apiConfig := huma.DefaultConfig("My Anime List", common.Version())
 	apiConfig.DocsPath = ""

@@ -1,8 +1,7 @@
 install: install-api install-web
 
 install-api:
-	cd api && \
-	make install
+	go mod download && go mod verify
 
 install-web:
 	cd web && \
@@ -12,8 +11,7 @@ install-web:
 run: run-api run-web
 
 run-api:
-	cd api && \
-	make run
+	go run cmd/main.go
 
 run-web:
 	cd web && \
@@ -23,8 +21,7 @@ run-web:
 build: build-api build-web
 
 build-api:
-	cd api && \
-	make build
+	go build -ldflags "-s -w" -o build/api/anime-list cmd/main.go
 
 build-web:
 	cd web && \
