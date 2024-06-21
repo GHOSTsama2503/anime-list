@@ -1,7 +1,7 @@
 package config_test
 
 import (
-	"github.com/ghostsama2503/anime-list/api/common/config"
+	"github.com/ghostsama2503/anime-list/common/config"
 	"testing"
 )
 

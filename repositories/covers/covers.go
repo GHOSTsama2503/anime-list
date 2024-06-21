@@ -1,8 +1,8 @@
 package covers
 
 import (
-	"github.com/ghostsama2503/anime-list/api/database"
-	"github.com/ghostsama2503/anime-list/api/repositories/covers/models"
+	"github.com/ghostsama2503/anime-list/database"
+	"github.com/ghostsama2503/anime-list/repositories/covers/models"
 	"context"
 )
 

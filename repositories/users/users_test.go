@@ -1,8 +1,8 @@
 package users_test
 
 import (
-	"github.com/ghostsama2503/anime-list/api/database"
-	"github.com/ghostsama2503/anime-list/api/repositories/users"
+	"github.com/ghostsama2503/anime-list/database"
+	"github.com/ghostsama2503/anime-list/repositories/users"
 	"context"
 	"database/sql"
 	"testing"

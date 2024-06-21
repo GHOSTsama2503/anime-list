@@ -1,8 +1,8 @@
 package database_test
 
 import (
-	"github.com/ghostsama2503/anime-list/api/common/config"
-	"github.com/ghostsama2503/anime-list/api/database"
+	"github.com/ghostsama2503/anime-list/common/config"
+	"github.com/ghostsama2503/anime-list/database"
 	"testing"
 )
 

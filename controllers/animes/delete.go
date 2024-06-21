@@ -1,7 +1,7 @@
 package animes
 
 import (
-	"github.com/ghostsama2503/anime-list/api/httperr"
+	"github.com/ghostsama2503/anime-list/httperr"
 	"context"
 	"net/http"
 

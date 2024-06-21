@@ -1,7 +1,7 @@
 package genres
 
 import (
-	"github.com/ghostsama2503/anime-list/api/repositories/genres/models"
+	"github.com/ghostsama2503/anime-list/repositories/genres/models"
 	"context"
 )
 

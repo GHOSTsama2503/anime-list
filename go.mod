@@ -1,4 +1,4 @@
-module github.com/ghostsama2503/anime-list/api
+module github.com/ghostsama2503/anime-list
 
 go 1.22.1
 

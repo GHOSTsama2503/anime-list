@@ -4,12 +4,12 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/ghostsama2503/anime-list/api/common"
-	"github.com/ghostsama2503/anime-list/api/common/config"
-	"github.com/ghostsama2503/anime-list/api/common/logging"
-	"github.com/ghostsama2503/anime-list/api/controllers"
-	"github.com/ghostsama2503/anime-list/api/database"
-	"github.com/ghostsama2503/anime-list/api/middlewares"
+	"github.com/ghostsama2503/anime-list/common"
+	"github.com/ghostsama2503/anime-list/common/config"
+	"github.com/ghostsama2503/anime-list/common/logging"
+	"github.com/ghostsama2503/anime-list/controllers"
+	"github.com/ghostsama2503/anime-list/database"
+	"github.com/ghostsama2503/anime-list/middlewares"
 
 	"github.com/charmbracelet/log"
 	"github.com/danielgtaylor/huma/v2"

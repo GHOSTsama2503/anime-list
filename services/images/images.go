@@ -1,8 +1,8 @@
 package images
 
 import (
-	"github.com/ghostsama2503/anime-list/api/common/config"
-	"github.com/ghostsama2503/anime-list/api/common/download"
+	"github.com/ghostsama2503/anime-list/common/config"
+	"github.com/ghostsama2503/anime-list/common/download"
 	"fmt"
 	"path"
 )

@@ -1,7 +1,7 @@
 package animes
 
 import (
-	"github.com/ghostsama2503/anime-list/api/repositories/animes/models"
+	"github.com/ghostsama2503/anime-list/repositories/animes/models"
 	"context"
 	"database/sql"
 )

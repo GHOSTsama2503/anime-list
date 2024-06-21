@@ -1,7 +1,7 @@
 package download_test
 
 import (
-	"github.com/ghostsama2503/anime-list/api/common/download"
+	"github.com/ghostsama2503/anime-list/common/download"
 	"os"
 	"testing"
 )

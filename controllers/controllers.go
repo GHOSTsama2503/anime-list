@@ -1,10 +1,10 @@
 package controllers
 
 import (
-	"github.com/ghostsama2503/anime-list/api/common/config"
-	"github.com/ghostsama2503/anime-list/api/controllers/animes"
-	"github.com/ghostsama2503/anime-list/api/controllers/docs"
-	"github.com/ghostsama2503/anime-list/api/controllers/healthcheck"
+	"github.com/ghostsama2503/anime-list/common/config"
+	"github.com/ghostsama2503/anime-list/controllers/animes"
+	"github.com/ghostsama2503/anime-list/controllers/docs"
+	"github.com/ghostsama2503/anime-list/controllers/healthcheck"
 	"github.com/go-chi/chi/v5"
 
 	"github.com/danielgtaylor/huma/v2"

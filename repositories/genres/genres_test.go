@@ -1,8 +1,8 @@
 package genres_test
 
 import (
-	"github.com/ghostsama2503/anime-list/api/database"
-	"github.com/ghostsama2503/anime-list/api/repositories/genres"
+	"github.com/ghostsama2503/anime-list/database"
+	"github.com/ghostsama2503/anime-list/repositories/genres"
 	"context"
 	"database/sql"
 	"testing"
