@@ -1,11 +1,12 @@
 package studios_test
 
 import (
-	"github.com/ghostsama2503/anime-list/database"
-	"github.com/ghostsama2503/anime-list/repositories/studios"
 	"context"
 	"database/sql"
 	"testing"
+
+	"github.com/ghostsama2503/anime-list/database"
+	"github.com/ghostsama2503/anime-list/repositories/studios"
 )
 
 func TestStudiosRepository(t *testing.T) {

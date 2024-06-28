@@ -1,12 +1,13 @@
 package animes_test
 
 import (
-	"github.com/ghostsama2503/anime-list/database"
-	"github.com/ghostsama2503/anime-list/repositories/animes"
 	"context"
 	"database/sql"
 	"fmt"
 	"testing"
+
+	"github.com/ghostsama2503/anime-list/database"
+	"github.com/ghostsama2503/anime-list/repositories/animes"
 )
 
 func TestAnimesRepository(t *testing.T) {

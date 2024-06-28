@@ -1,19 +1,20 @@
 package database
 
 import (
-	"github.com/ghostsama2503/anime-list/common/config"
 	"database/sql"
 
-	_ "github.com/tursodatabase/go-libsql"
+	"github.com/ghostsama2503/anime-list/common/config"
+	_ "modernc.org/sqlite"
 )
 
 var Db *sql.DB
 var Query *Queries
 var connected bool
 
+// Initialize database connection
 func Init() (*sql.DB, error) {
 
-	db, err := sql.Open("libsql", config.Env.DatabaseUrl)
+	db, err := sql.Open("sqlite", config.Env.DatabaseUrl)
 	if err != nil {
 		return db, err
 	}
@@ -25,7 +26,10 @@ func Init() (*sql.DB, error) {
 	return db, nil
 }
 
+// Returns current database connection if exists,
+// else creates a new connection and return it.
 func CheckConnection() (*sql.DB, error) {
+
 	if !connected {
 		if err := config.LoadEnv(); err != nil {
 			return Db, err

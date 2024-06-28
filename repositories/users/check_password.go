@@ -1,24 +1,32 @@
 package users
 
-import "context"
+import (
+	"context"
+	"database/sql"
+	"errors"
+)
 
 const checkUserPassword = `
 SELECT id FROM users
 WHERE username = ? AND password = ?;
 `
 
-type CheckUserPasswordParams struct {
-	Username string
-	Password string
+type CheckPasswordParams interface {
+	GetUsername() string
+	GetPassword() string
 }
 
-func (r *UsersRepository) CheckPassword(ctx context.Context, params CheckUserPasswordParams) bool {
+func (r *UsersRepository) CheckPassword(ctx context.Context, params CheckPasswordParams) (bool, error) {
 
-	row := r.db.QueryRowContext(ctx, checkUserPassword, params.Username, params.Password)
+	row := r.db.QueryRowContext(ctx, checkUserPassword, params.GetUsername(), params.GetPassword())
 
 	var id int64
 
-	row.Scan(&id)
+	err := row.Scan(&id)
 
-	return id != 0
+	if errors.Is(err, sql.ErrNoRows) {
+		return false, nil
+	}
+
+	return id != 0, err
 }

@@ -21,7 +21,7 @@ run-web:
 build: build-api build-web
 
 build-api:
-	go build -ldflags "-s -w" -o build/api/anime-list cmd/main.go
+	go build -ldflags "-s -w" -o build/anime-list cmd/main.go
 
 build-web:
 	cd web && \
@@ -31,5 +31,9 @@ build-web:
 clean-build: clean-build-api clean-build-web
 
 clean-build-api:
-	rm -r build/api/ && \
+	rm build/anime-list && \
 	build-api
+
+clean-build-web:
+	rm -r build/web && \
+	build-web

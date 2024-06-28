@@ -1,14 +1,15 @@
 package logging
 
 import (
-	"github.com/ghostsama2503/anime-list/common/config"
 	"fmt"
 	"net/http"
 	"os"
 	"time"
 
+	"github.com/ghostsama2503/anime-list/common/config"
+
 	"github.com/charmbracelet/log"
-	"github.com/go-chi/chi/middleware"
+	"github.com/go-chi/chi/v5/middleware"
 	"gopkg.in/natefinch/lumberjack.v2"
 )
 

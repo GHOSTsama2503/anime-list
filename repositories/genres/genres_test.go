@@ -1,11 +1,12 @@
 package genres_test
 
 import (
-	"github.com/ghostsama2503/anime-list/database"
-	"github.com/ghostsama2503/anime-list/repositories/genres"
 	"context"
 	"database/sql"
 	"testing"
+
+	"github.com/ghostsama2503/anime-list/database"
+	"github.com/ghostsama2503/anime-list/repositories/genres"
 )
 
 func TestGenresRepository(t *testing.T) {

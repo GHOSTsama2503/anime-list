@@ -1,19 +1,21 @@
 package users
 
 import (
+	"context"
+
 	"github.com/ghostsama2503/anime-list/database"
 	"github.com/ghostsama2503/anime-list/repositories/users/models"
-	"context"
 )
 
 type UsersRepositoryInterface interface {
 	Create(ctx context.Context, params CreateParams) (models.User, error)
-	GetUserById(ctx context.Context, id int64) (models.User, error)
-	GetUserByUsername(ctx context.Context, username string) (models.User, error)
-	DeleteUser(ctx context.Context, id int64) error
+	Get(ctx context.Context, parms GetParams) (models.User, error)
+	Delete(ctx context.Context, id int64) error
 
-	CheckIfAdminExists() (bool, error)
-	CheckUserPassword(ctx context.Context, params CheckUserPasswordParams) (bool, error)
+	CheckIfAdminExists(ctx context.Context) (bool, error)
+
+	GetPassword(ctx context.Context, id int64) (string, error)
+	CheckPassword(ctx context.Context, params CheckPasswordParams) (bool, error)
 }
 
 type UsersRepository struct {

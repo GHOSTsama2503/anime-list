@@ -40,11 +40,23 @@ func main() {
 
 	apiConfig := huma.DefaultConfig("My Anime List", common.Version())
 	apiConfig.DocsPath = ""
+	apiConfig.Components.SecuritySchemes = map[string]*huma.SecurityScheme{
+		"cookie": {
+			Type: "http",
+			Name: "session",
+			In:   "cookie",
+			Flows: &huma.OAuthFlows{
+				Implicit: &huma.OAuthFlow{
+					Scopes: map[string]string{"default": "default scope"},
+				},
+			},
+		},
+	}
 
 	api := humachi.New(router, apiConfig)
 
-	middlewares.Init(api, router)
-	controllers.Init(api, router)
+	middlewares.Init(api, router, database.Db)
+	controllers.Init(api, router, database.Db)
 
 	log.Info("server running! 🦊", "port", config.Env.Port)
 	http.ListenAndServe(fmt.Sprintf(":%d", config.Env.Port), router)

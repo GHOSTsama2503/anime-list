@@ -1,13 +1,14 @@
 package animes
 
 import (
+	"net/http"
+
 	"github.com/ghostsama2503/anime-list/database"
 	repository "github.com/ghostsama2503/anime-list/repositories/animes"
 	"github.com/ghostsama2503/anime-list/repositories/covers"
 	"github.com/ghostsama2503/anime-list/repositories/genres"
 	"github.com/ghostsama2503/anime-list/repositories/studios"
 	service "github.com/ghostsama2503/anime-list/services/animes"
-	"net/http"
 
 	"github.com/danielgtaylor/huma/v2"
 )

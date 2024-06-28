@@ -1,9 +1,10 @@
 package database_test
 
 import (
+	"testing"
+
 	"github.com/ghostsama2503/anime-list/common/config"
 	"github.com/ghostsama2503/anime-list/database"
-	"testing"
 )
 
 func TestInit(t *testing.T) {
