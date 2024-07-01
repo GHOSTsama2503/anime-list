@@ -1,0 +1,64 @@
+---
+import CloseIcon from "../icons/CloseIcon.astro";
+---
+
+<template id="toast">
+	<toast-msg class="toast">
+		<span class="toast-content"></span>
+
+		<button class="close-button">
+			<CloseIcon class="close-icon" />
+		</button>
+	</toast-msg>
+</template>
+
+<style>
+	.toast {
+		background-color: var(--toast-bg);
+		color: var(--toast-text);
+		border-radius: var(--border-radius);
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		padding: 0.2rem;
+		gap: 0.2rem;
+	}
+
+	.close-button {
+		background-color: transparent;
+		border-width: 0;
+		padding: 0;
+		display: flex;
+		align-items: center;
+		cursor: pointer;
+	}
+
+	.close-icon {
+		width: 2rem;
+		height: 2rem;
+	}
+</style>
+
+<script>
+	class Toast extends HTMLElement {
+		closeButton: HTMLButtonElement;
+
+		constructor() {
+			super();
+
+			const closeButton: HTMLButtonElement | null = this.querySelector(".close-button");
+			if (closeButton == null) {
+				throw new Error("close button is missing");
+			}
+
+			this.closeButton = closeButton;
+			this.closeButton.onclick = this.closeToast;
+		}
+
+		closeToast = () => {
+			this.remove();
+		};
+	}
+
+	customElements.define("toast-msg", Toast);
+</script>

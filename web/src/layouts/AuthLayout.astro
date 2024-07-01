@@ -1,0 +1,75 @@
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+		<title>Document</title>
+
+		<meta property="title" content="AnimeList Auth" />
+		<meta property="og:type" content="website" />
+		<meta property="og:description" content="You are not allowed to use this endpoint" />
+		<meta property="og:image" content="https://animes.ghostsrv.ydns.eu/icons/auth.png" />
+
+		<link rel="stylesheet" href="/styles/global.css" />
+		<link rel="stylesheet" href="/styles/toasts.css" />
+
+		<script src="../scripts/theme.ts"></script>
+		<script src="../scripts/toasts.ts"></script>
+	</head>
+
+	<body>
+		<slot />
+	</body>
+</html>
+
+<style is:global>
+	:root {
+		--max-form-width: 26rem;
+		--element-width: 18rem;
+	}
+
+	body {
+		width: 100%;
+		height: 100vh;
+		margin: auto;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+
+	form {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		max-width: var(--max-form-width);
+		gap: 2rem;
+	}
+
+	form > * {
+		width: var(--element-width);
+		height: 2rem;
+		border-radius: var(--border-radius);
+	}
+
+	form input {
+		background-color: var(--bg-primary);
+		color: var(--text-secondary);
+		opacity: 15rem;
+		border: 0.1rem solid var(--primary);
+	}
+
+	form button {
+		background-color: var(--primary);
+		border: none;
+	}
+
+	form button:hover {
+		cursor: pointer;
+		opacity: 80%;
+	}
+
+	input:-webkit-autofill {
+		-webkit-box-shadow: 0 0 0px 1000px var(--bg-primary) inset;
+		-webkit-text-fill-color: var(--text-primary);
+	}
+</style>

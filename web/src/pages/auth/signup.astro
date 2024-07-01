@@ -1,0 +1,75 @@
+---
+import AuthLayout from "../../layouts/AuthLayout.astro";
+import AuthButton from "../../components/auth/AuthButton.astro";
+import AuthInput from "../../components/auth/AuthInput.astro";
+import ToastsBox from "../../components/toasts/ToastsBox.astro";
+---
+
+<AuthLayout>
+	<form>
+		<AuthInput type="text" />
+		<AuthInput type="password" />
+
+		<AuthButton>Sign Up</AuthButton>
+	</form>
+
+	<ToastsBox />
+</AuthLayout>
+
+<script>
+	import { newToast } from "../../scripts/toasts";
+
+	const form: HTMLFormElement | null = document.querySelector("form");
+	if (form == null) {
+		throw new Error("signup form is missing");
+	}
+
+	const usernameInput: HTMLInputElement | null = document.querySelector('input[type="text"]');
+	if (usernameInput == null) {
+		throw new Error("username input is missing");
+	}
+
+	const passwordInput: HTMLInputElement | null = document.querySelector('input[type="password"]');
+	if (passwordInput == null) {
+		throw new Error("password input is missing");
+	}
+
+	const signUpButton: HTMLButtonElement | null = document.querySelector("button");
+	if (signUpButton == null) {
+		throw new Error("signup button is missing");
+	}
+
+	form.onsubmit = (event) => {
+		event.preventDefault();
+	};
+
+	signUpButton.onclick = async () => {
+		const response = await fetch("/api/auth/signup", {
+			method: "POST",
+			headers: { Accept: "application/json", "Content-Type": "application/json" },
+			body: JSON.stringify({ username: usernameInput.value, password: passwordInput.value }),
+		});
+
+		let data;
+
+		const apiResponseError = new Error(`api response with status: ${response.status} ${response.statusText}`);
+
+		try {
+			data = await response.json();
+		} catch (error) {
+			throw apiResponseError;
+		}
+
+		if (!response.ok) {
+			if (data.detail != null) {
+				newToast("error", data.detail);
+				return;
+			} else {
+				throw apiResponseError;
+			}
+		}
+
+		const signInUrl = "/auth/signin";
+		newToast("success", `Your account has been created successfully, please <a href="${signInUrl}>Sign In</a>".`);
+	};
+</script>

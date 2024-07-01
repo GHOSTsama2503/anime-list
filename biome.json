@@ -1,0 +1,6 @@
+{
+	"$schema": "./web/node_modules/@biomejs/biome/configuration_schema.json",
+	"formatter": {
+		"lineWidth": 120
+	}
+}

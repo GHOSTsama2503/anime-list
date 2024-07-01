@@ -1,0 +1,41 @@
+:root {
+	--bg-info: cyan;
+	--bg-success: green;
+	--bg-warning: yellow;
+	--bg-error: red;
+
+	--accent-info: cyan;
+	--accent-success: green;
+	--accent-warning: yellow;
+	--accent-error: red;
+
+	--text-info: black;
+	--text-success: black;
+	--text-warning: black;
+	--text-error: black;
+}
+
+
+*[data-toast="info"] {
+	--toast-bg: lightblue;
+	--toast-accent: cyan;
+	--toast-text: black;
+}
+
+*[data-toast="success"] {
+	--toast-bg: lightgreen;
+	--toast-accent: green;
+	--toast-text: black;
+}
+
+*[data-toast="warn"] {
+	--toast-bg: khaki;
+	--toast-accent: yellow;
+	--toast-text: black;
+}
+
+*[data-toast="error"] {
+	--toast-bg: lightcoral;
+	--toast-accent: red;
+	--toast-text: black;
+}
