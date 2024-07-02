@@ -1,12 +1,13 @@
 package animes
 
 import (
+	"fmt"
+
 	r "github.com/ghostsama2503/anime-list/repositories/animes"
 	"github.com/ghostsama2503/anime-list/repositories/animes/models"
 	coversModels "github.com/ghostsama2503/anime-list/repositories/covers/models"
 	"github.com/ghostsama2503/anime-list/services"
 	"github.com/ghostsama2503/anime-list/services/animes/types"
-	"fmt"
 )
 
 func DateToString(d types.Date) string {
@@ -45,6 +46,14 @@ func NewAnime(model models.Anime) types.Anime {
 		Duration:    model.Duration,
 		BannerImage: model.BannerImage.String,
 		StImage:     model.StImage,
+	}
+}
+
+func NewAnimeTiny(model models.AnimeTiny) types.AnimeTiny {
+	return types.AnimeTiny{
+		Id:          model.Id,
+		Title:       model.Title,
+		Description: model.Description,
 	}
 }
 

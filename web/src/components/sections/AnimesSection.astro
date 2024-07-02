@@ -2,7 +2,6 @@
 
 <script>
 	type AnimeResponse = {
-		total: number;
 		animes: Anime[];
 	};
 
@@ -10,7 +9,6 @@
 		id: number;
 		title: string;
 		description: string;
-		image: number;
 	};
 
 	const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
@@ -103,7 +101,7 @@
 				return newNotFoundError("img");
 			}
 
-			img.src = `/img/${anime.image}`;
+			img.src = `/img/${anime.id}`;
 			img.alt = `${anime.title} Banner`;
 
 			const link = `/anime?id=${anime.id}`;

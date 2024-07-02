@@ -1,8 +1,10 @@
 package animes
 
 import (
-	"github.com/ghostsama2503/anime-list/repositories/animes/models"
 	"context"
+	"database/sql"
+
+	"github.com/ghostsama2503/anime-list/repositories/animes/models"
 )
 
 const getList = `
@@ -12,8 +14,7 @@ WHERE (
 	OR title_romaji LIKE '%' || @title || '%'
 	OR title_native LIKE '%' || @title || '%'
 	OR title_english LIKE '%' || @title || '%'
-)
-	OR (
+) OR (
 	@description = NULL
 	OR description LIKE '%' || @description || '%'
 )
@@ -22,25 +23,26 @@ LIMIT ?
 OFFSET ?;
 `
 
-type GetListParams struct {
-	Query               string
-	IncludeDescriptions bool
-	Limit               int64
-	Offset              int64
+type GetListParams interface {
+	GetQuery() string
+	GetLimit() int64
+	GetOffset() int64
+	GetIncludeDescriptions() bool
 }
 
 func (r *AnimesRepository) GetList(ctx context.Context, params GetListParams) ([]models.AnimeTiny, error) {
 
-	var description string
-	if params.IncludeDescriptions {
-		description = params.Query
+	description := sql.NullString{}
+	if params.GetIncludeDescriptions() {
+		description.String = params.GetQuery()
+		description.Valid = params.GetIncludeDescriptions()
 	}
 
 	rows, err := r.db.QueryContext(ctx, getList,
-		params.Query,
-		description,
-		params.Limit,
-		params.Offset,
+		sql.Named("title", params.GetQuery()),
+		sql.Named("description", description),
+		params.GetLimit(),
+		params.GetOffset(),
 	)
 	if err != nil {
 		return nil, err

@@ -1,12 +1,12 @@
 package animes
 
 import (
-	"github.com/ghostsama2503/anime-list/common/config"
-	"github.com/ghostsama2503/anime-list/httperr"
-	"github.com/ghostsama2503/anime-list/repositories/animes"
-	"github.com/ghostsama2503/anime-list/repositories/animes/models"
 	"context"
 	"net/http"
+
+	"github.com/ghostsama2503/anime-list/httperr"
+	"github.com/ghostsama2503/anime-list/services/animes"
+	"github.com/ghostsama2503/anime-list/services/animes/types"
 )
 
 type GetListRequest struct {
@@ -18,36 +18,26 @@ type GetListRequest struct {
 
 type GetListResponse struct {
 	Body struct {
-		Animes []models.AnimeTiny `json:"animes"`
+		Animes []types.AnimeTiny `json:"animes"`
 	}
 }
 
-func (c *AnimesController) GetAnimeList(ctx context.Context, input *GetListRequest) (*GetListResponse, error) {
-
-	limit := input.Limit
-	if limit > config.Env.MaxLimit {
-		limit = config.Env.DefaultLimit
-	}
-
-	offset := input.Offset
-	if offset < 0 {
-		offset = 0
-	}
+func (c *AnimesController) GetAnimeList(ctx context.Context, request *GetListRequest) (*GetListResponse, error) {
 
 	params := animes.GetListParams{
-		Limit:               limit,
-		Offset:              offset,
-		Query:               input.Query,
-		IncludeDescriptions: input.IncludeDescriptions,
+		Query:               request.Query,
+		Limit:               request.Limit,
+		Offset:              request.Offset,
+		IncludeDescriptions: request.IncludeDescriptions,
 	}
 
-	animes, err := c.repository.GetList(ctx, params)
+	animesList, err := c.service.GetList(ctx, params)
 	if err != nil {
 		return nil, httperr.New(http.StatusInternalServerError, "error getting anime list", err)
 	}
 
 	resp := &GetListResponse{}
-	resp.Body.Animes = animes
+	resp.Body.Animes = animesList
 
 	return resp, nil
 }
